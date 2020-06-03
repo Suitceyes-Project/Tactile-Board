@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">TactileBoard</string>
+
+    <string name="intent_extra">dict</string>
+    <string name="shared_prefs">DICT</string>
+
+    <string name="pattern_exists">Haptogram already exists</string>
+    <string name="word_exists">Word already exists</string>
+    <string name="no_word">Please add a translation</string>
+    <string name="no_pattern">Please add a haptogram</string>
+    <string name="not_known">Haptogram not known</string>
+
+    <string name="word_inserted">Haptogram successfully inserted</string>
+
+    <string name="new_word">enter new word here</string>
+</resources>
