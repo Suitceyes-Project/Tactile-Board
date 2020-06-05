@@ -51,7 +51,7 @@ public class VibrationPattern {
         Gson gson = new Gson();
 
         String jsonString = gson.toJson(this);
-        jsonString = "{\"FunctionName\":\"TactileBoard\",\"Payload\":" + jsonString;
+        jsonString = "{\"FunctionName\":\"TactileBoard\",\"Payload\":" + jsonString + "}";
 
         return jsonString;
     }

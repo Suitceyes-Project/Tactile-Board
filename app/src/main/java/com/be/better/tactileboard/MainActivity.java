@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         //Tablet - Margin 40dp each side
         //patternView.setDotNormalSize(70);
         //patternView.setDotSelectedSize(70);
+
         //Smartphone - Margin none
         patternView.setDotNormalSize(40);
         patternView.setDotSelectedSize(40);
@@ -125,45 +126,6 @@ public class MainActivity extends AppCompatActivity {
 
                     messageManager.sendMessage(jsonPattern.toString());
 
-                    /*
-                    try{
-                        JSONObject jsonObj = new JSONObject();
-                        jsonObj.put("FunctionName", "TactileBoard");
-
-                        JSONObject jsonPayload = new JSONObject();
-                        jsonPayload.put("isLooped", "false");
-                        jsonPayload.put("duration", 2.5);
-
-                        JSONObject jsonFrames = new JSONObject();
-                        JSONArray jsonFramesContainer = new JSONArray();
-
-                        for(int i = 0; i < pattern.size(); i++) {
-
-                            JSONObject jsonFrameObj = new JSONObject();
-
-                            jsonFrameObj.put("time", i);
-
-                            // pins wieder ausmachen im intervall 300ms
-                            JSONArray jsonActuatorContainer = new JSONArray();
-                            JSONObject jsonActuatorObj = new JSONObject();
-                            jsonActuatorObj.put("pin", pattern.get(i).getId());
-                            jsonActuatorObj.put("value", 1);
-                            jsonActuatorContainer.put(jsonActuatorObj);
-
-                            jsonFrameObj.put("actuators", jsonActuatorContainer);
-
-                            jsonFramesContainer.put(jsonFrameObj);
-
-                        }
-                        jsonPayload.put("frames", jsonFramesContainer);
-                        jsonObj.put("Payload", jsonPayload);
-
-                        messageManager.sendMessage(jsonObj.toString());
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                     */
                 }
             }
         });

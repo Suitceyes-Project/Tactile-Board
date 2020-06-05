@@ -82,6 +82,7 @@ public class NewEntryActivity extends AppCompatActivity {
         //Tablet - Margin 40dp each side
         //patternView.setDotNormalSize(70);
         //patternView.setDotSelectedSize(70);
+
         //Smartphone - Margin none
         patternView.setDotNormalSize(40);
         patternView.setDotSelectedSize(40);
