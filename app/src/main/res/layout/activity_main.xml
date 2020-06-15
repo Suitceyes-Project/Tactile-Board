@@ -64,4 +64,16 @@
         app:layout_constraintTop_toBottomOf="@+id/pattern_lock_view"
         app:layout_constraintVertical_bias="1.0" />
 
+    <ImageButton
+        android:id="@+id/textToSpeech"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/Text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pattern_lock_view"
+        app:srcCompat="@drawable/baseline_record_voice_over_black_24" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

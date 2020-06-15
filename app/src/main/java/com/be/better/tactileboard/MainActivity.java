@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Debug;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -14,27 +14,27 @@ import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView word;
     private String writtenTranslation = "";
+    private ImageButton textToSpeechButton;
     private Button addWord;
     private PatternLockView patternView;
     private MessageManager messageManager;
     private List<PatternLockView.Dot> pattern;
-
+    private TextToSpeech textToSpeech;
     protected static Dict dict;
 
     protected static SharedPreferences prefs;
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         word = (TextView) findViewById(R.id.Text);
-
+        textToSpeechButton = (ImageButton) findViewById(R.id.textToSpeech);
         addWord = (Button) findViewById(R.id.addWord);
         addWord.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +129,26 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status == TextToSpeech.ERROR)
+                    return;
+
+                textToSpeech.setLanguage(Locale.US);
+            }
+        });
+
+        textToSpeechButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(textToSpeech.isSpeaking())
+                    textToSpeech.stop();
+
+                textToSpeech.speak(writtenTranslation, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        });
     }
 
     private void translateHaptogram(List<PatternLockView.Dot> pattern) {
@@ -138,10 +158,13 @@ public class MainActivity extends AppCompatActivity {
         if(validHaptogram) {
             this.pattern = pattern;
             word.setText(writtenTranslation);
+            textToSpeechButton.setVisibility(View.VISIBLE);
+            textToSpeech.speak(writtenTranslation, TextToSpeech.QUEUE_FLUSH, null);
             patternView.setViewMode(PatternLockView.PatternViewMode.CORRECT);
         } else {
             patternView.setViewMode(PatternLockView.PatternViewMode.WRONG);
             word.setText(R.string.not_known);
+            textToSpeechButton.setVisibility(View.INVISIBLE);
         }
     }
 
