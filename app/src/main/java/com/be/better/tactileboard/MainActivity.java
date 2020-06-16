@@ -31,10 +31,13 @@ public class MainActivity extends AppCompatActivity {
     private String writtenTranslation = "";
     private ImageButton textToSpeechButton;
     private Button addWord;
+    private Button clearButton;
+    private Button completeButton;
     private PatternLockView patternView;
     private MessageManager messageManager;
     private List<PatternLockView.Dot> pattern;
     private TextToSpeech textToSpeech;
+    private StringBuilder patternBuilder = new StringBuilder();
     protected static Dict dict;
 
     protected static SharedPreferences prefs;
@@ -54,7 +57,13 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onComplete(List<PatternLockView.Dot> pattern) {
-            translateHaptogram(pattern);
+            String haptogram = MPatternLockUtils.patternToString(patternView, pattern);
+
+            if(haptogram.isEmpty())
+                return;
+
+            patternBuilder.append(haptogram);
+            //translateHaptogram(pattern);
         }
 
         @Override
@@ -86,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
 
         word = (TextView) findViewById(R.id.Text);
         textToSpeechButton = (ImageButton) findViewById(R.id.textToSpeech);
+        clearButton = (Button) findViewById(R.id.clearButton);
+        completeButton = (Button) findViewById(R.id.completeButton);
         addWord = (Button) findViewById(R.id.addWord);
         addWord.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,18 +126,15 @@ public class MainActivity extends AppCompatActivity {
         patternView.setTactileFeedbackEnabled(false);
 
         Button messageTest = (Button) findViewById(R.id.SendMessage);
+
         messageTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(pattern != null) {
+                if(pattern == null)
+                    return;
 
-                    VibrationPattern vibrationPattern = new VibrationPattern(false, 2.5);
-
-                    String jsonPattern = createJsonforPattern(vibrationPattern, pattern);
-
-                    messageManager.sendMessage(jsonPattern.toString());
-
-                }
+                VibrationPattern vibrationPattern = VibrationPatternFactory.create(pattern);
+                messageManager.sendMessage(MessageFactory.create("TactileBoard", vibrationPattern));
             }
         });
 
@@ -149,6 +157,25 @@ public class MainActivity extends AppCompatActivity {
                 textToSpeech.speak(writtenTranslation, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
+
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        completeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Tuple<Boolean, String> returnValue = tryTranslatePattern(patternBuilder.toString());
+                if(returnValue.first)
+                {
+                    //TODO: update views
+                }
+                //translateHaptogram(pattern);
+            }
+        });
     }
 
     private void translateHaptogram(List<PatternLockView.Dot> pattern) {
@@ -166,6 +193,20 @@ public class MainActivity extends AppCompatActivity {
             word.setText(R.string.not_known);
             textToSpeechButton.setVisibility(View.INVISIBLE);
         }
+    }
+
+    private Tuple<Boolean, String> tryTranslatePattern(String pattern){
+        Tuple<Boolean, String> returnValues = new Tuple();
+        if(dict.getHashMap() == null){
+            returnValues.first = false;
+        }
+        else{
+            Boolean hasKey = dict.containsKey(pattern);
+            if(hasKey)
+                returnValues.second = dict.getKey(pattern);
+            returnValues.first = hasKey;
+        }
+        return returnValues;
     }
 
     private boolean checkHaptogram(List<PatternLockView.Dot> pattern) {
@@ -208,32 +249,4 @@ public class MainActivity extends AppCompatActivity {
         patternView.clearPattern();
         word.setText("Translation");
     }
-
-    private String createJsonforPattern(VibrationPattern vibrationPattern, List<PatternLockView.Dot> pattern) {
-        // variable to calculate the switch on/off timing
-        double tmp = 0;
-
-        for (PatternLockView.Dot dot : pattern)
-        {
-            ActuatorValue actuatorStart = new ActuatorValue(dot.getId(), 1);
-            ActuatorValue actuatorEnd = new ActuatorValue(dot.getId(), 0);
-
-            Frame frameOn = new Frame(-1);
-            if(tmp == 0) {
-                frameOn.setTime(tmp);
-            } else {
-                frameOn.setTime(tmp -= 0.05);
-            }
-            Frame frameOff = new Frame(tmp += 0.3);
-            frameOn.addActuators(actuatorStart);
-            frameOff.addActuators(actuatorEnd);
-            vibrationPattern.addFrame(frameOn);
-            vibrationPattern.addFrame(frameOff);
-        }
-
-        String json = vibrationPattern.toJSON();
-
-        return json;
-    }
-
 }

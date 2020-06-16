@@ -9,8 +9,9 @@
     <string name="no_word">Please add a translation</string>
     <string name="no_pattern">Please add a haptogram</string>
     <string name="not_known">Haptogram not known</string>
-
     <string name="word_inserted">Haptogram successfully inserted</string>
-
     <string name="new_word">enter new word here</string>
+    <string name="complete">Complete</string>
+    <string name="clear">Clear</string>
+
 </resources>
