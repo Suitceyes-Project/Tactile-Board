@@ -23,8 +23,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 public class MainActivity extends AppCompatActivity {
 
     private TextView word;
@@ -62,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
             if(haptogram.isEmpty())
                 return;
 
+            if(patternBuilder.length() > 0)
+                patternBuilder.append(',');
             patternBuilder.append(haptogram);
             //translateHaptogram(pattern);
         }
@@ -102,11 +102,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, NewEntryActivity.class);
-                i.putExtra("dict", dict.getHashMap());
+                i.putExtra("dict", dict.getInstance());
                 startActivity(i);
             }
         });
-
+        patternBuilder.setLength(0);
         patternView = (PatternLockView) findViewById(R.id.pattern_lock_view);
 
         patternView.setDotCount(4);
@@ -161,7 +161,10 @@ public class MainActivity extends AppCompatActivity {
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                patternBuilder.setLength(0);
+                patternView.clearPattern();
+                textToSpeechButton.setVisibility(View.INVISIBLE);
+                word.setText("Translation");
             }
         });
 
@@ -171,58 +174,34 @@ public class MainActivity extends AppCompatActivity {
                 Tuple<Boolean, String> returnValue = tryTranslatePattern(patternBuilder.toString());
                 if(returnValue.first)
                 {
-                    //TODO: update views
+                    writtenTranslation = returnValue.second;
+                    word.setText(returnValue.second);
+                    textToSpeechButton.setVisibility(View.VISIBLE);
+                    textToSpeech.speak(returnValue.second, TextToSpeech.QUEUE_FLUSH, null);
+                    patternView.setViewMode(PatternLockView.PatternViewMode.CORRECT);
                 }
-                //translateHaptogram(pattern);
+                else{
+                    patternView.setViewMode(PatternLockView.PatternViewMode.WRONG);
+                    word.setText(R.string.not_known);
+                    textToSpeechButton.setVisibility(View.INVISIBLE);
+                }
+                patternBuilder.setLength(0);
             }
         });
     }
 
-    private void translateHaptogram(List<PatternLockView.Dot> pattern) {
-
-        boolean validHaptogram = checkHaptogram(pattern);
-
-        if(validHaptogram) {
-            this.pattern = pattern;
-            word.setText(writtenTranslation);
-            textToSpeechButton.setVisibility(View.VISIBLE);
-            textToSpeech.speak(writtenTranslation, TextToSpeech.QUEUE_FLUSH, null);
-            patternView.setViewMode(PatternLockView.PatternViewMode.CORRECT);
-        } else {
-            patternView.setViewMode(PatternLockView.PatternViewMode.WRONG);
-            word.setText(R.string.not_known);
-            textToSpeechButton.setVisibility(View.INVISIBLE);
-        }
-    }
-
     private Tuple<Boolean, String> tryTranslatePattern(String pattern){
         Tuple<Boolean, String> returnValues = new Tuple();
-        if(dict.getHashMap() == null){
+        if(dict.getInstance() == null){
             returnValues.first = false;
         }
         else{
-            Boolean hasKey = dict.containsKey(pattern);
-            if(hasKey)
-                returnValues.second = dict.getKey(pattern);
-            returnValues.first = hasKey;
+            returnValues.second = dict.getKey(pattern);
+            returnValues.first = !returnValues.second.isEmpty();
         }
         return returnValues;
     }
 
-    private boolean checkHaptogram(List<PatternLockView.Dot> pattern) {
-
-        if(dict.getHashMap() != null) {
-            writtenTranslation = dict.getKey(MPatternLockUtils.patternToString(patternView, pattern));
-        } else {
-            writtenTranslation = "";
-        }
-
-        if(writtenTranslation != "") {
-            return true;
-        } else {
-            return false;
-        }
-    }
     /*
     @Override
     protected void onPause() {
