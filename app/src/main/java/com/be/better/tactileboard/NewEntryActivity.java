@@ -176,6 +176,7 @@ public class NewEntryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 patternBuilder.setLength(0);
+                patternView.clearPattern();
             }
         });
     }
@@ -184,7 +185,7 @@ public class NewEntryActivity extends AppCompatActivity {
         if(haptogram.isEmpty())
             return false;
 
-        if(dict.isEmpty() || dict.containsValue(haptogram))
+        if(!dict.isEmpty() && dict.containsValue(haptogram))
             return false;
 
         return true;
@@ -194,7 +195,7 @@ public class NewEntryActivity extends AppCompatActivity {
         if(entry.isEmpty())
             return false;
 
-        if(dict.isEmpty() || dict.containsKey(entry))
+        if(!dict.isEmpty() && dict.containsKey(entry))
             return false;
 
         return true;

@@ -7,4 +7,5 @@
     <color name="normal">#9DA29F</color>
     <color name="wrong">#CC4B60</color>
     <color name="correct">#6BEC4B</color>
+    <color name="clear_button_color">#ffb0b0</color>
 </resources>

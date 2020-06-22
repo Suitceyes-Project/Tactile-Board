@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/clear"
-            android:theme="@style/PrimaryButton" />
+            android:theme="@style/ClearButton" />
 
     </LinearLayout>
 

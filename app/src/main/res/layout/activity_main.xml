@@ -92,7 +92,7 @@
 
         <Button
             android:id="@+id/clearButton"
-            android:theme="@style/PrimaryButton"
+            android:theme="@style/ClearButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
