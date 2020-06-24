@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private PatternLockView patternView;
     private MessageManager messageManager;
     private List<PatternLockView.Dot> pattern;
+    private String patternString = "";
     private TextToSpeech textToSpeech;
     private StringBuilder patternBuilder = new StringBuilder();
     protected static Dict dict;
@@ -130,10 +131,10 @@ public class MainActivity extends AppCompatActivity {
         messageTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(pattern == null)
+                if(patternString == null || patternString.isEmpty())
                     return;
 
-                VibrationPattern vibrationPattern = VibrationPatternFactory.create(pattern);
+                VibrationPattern vibrationPattern = VibrationPatternFactory.create(MPatternLockUtils.stringToPattern(patternView, patternString));
                 messageManager.sendMessage(MessageFactory.create("TactileBoard", vibrationPattern));
             }
         });
@@ -179,11 +180,13 @@ public class MainActivity extends AppCompatActivity {
                     textToSpeechButton.setVisibility(View.VISIBLE);
                     textToSpeech.speak(returnValue.second, TextToSpeech.QUEUE_FLUSH, null);
                     patternView.setViewMode(PatternLockView.PatternViewMode.CORRECT);
+                    patternString = patternBuilder.toString();
                 }
                 else{
                     patternView.setViewMode(PatternLockView.PatternViewMode.WRONG);
                     word.setText(R.string.not_known);
                     textToSpeechButton.setVisibility(View.INVISIBLE);
+                    patternString = null;
                 }
                 patternBuilder.setLength(0);
             }
