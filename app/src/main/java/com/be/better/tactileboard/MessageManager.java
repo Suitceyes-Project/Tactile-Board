@@ -17,7 +17,8 @@ public class MessageManager {
             factory = ortc.loadOrtcFactory("IbtRealtimeSJ");
             client = factory.createClient();
             client.setClusterUrl("http://ortc-developers.realtime.co/server/2.1");
-            client.connect("KJfc5M", "testToken");
+            // channel to ACI
+            client.connect("Rb7lul", "testToken");
 
             client.onConnected = new OnConnected() {
 
@@ -50,32 +51,8 @@ public class MessageManager {
         final String msg = message;
 
         try {
-            factory = ortc.loadOrtcFactory("IbtRealtimeSJ");
-            client = factory.createClient();
-            client.setClusterUrl("http://ortc-developers.realtime.co/server/2.1");
-            // test purposes
-            /*
-            client.connect("KJfc5M", "testToken");
-            client.onConnected = new OnConnected() {
 
-                @Override
-                public void run(OrtcClient sender) {
-                    client.send("myChannel", msg);
-                }
-            };
-            */
-
-            // channel to ACI
-            client.connect("Rb7lul", "testToken");
-
-            client.onConnected = new OnConnected() {
-
-                @Override
-                public void run(OrtcClient sender) {
-                    client.send("ACI_KYD", msg);
-                }
-            };
-
+            client.send("ACI_KYD", msg);
         } catch (Exception e) {
             System.out.println(String.format("Realtime Error: %s", e.toString()));
         }

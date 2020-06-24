@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
             if(patternBuilder.length() > 0)
                 patternBuilder.append(',');
             patternBuilder.append(haptogram);
+            patternString = patternBuilder.toString();
             //translateHaptogram(pattern);
         }
 
@@ -166,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
                 patternView.clearPattern();
                 textToSpeechButton.setVisibility(View.INVISIBLE);
                 word.setText("Translation");
+                patternString = null;
             }
         });
 
@@ -180,7 +182,6 @@ public class MainActivity extends AppCompatActivity {
                     textToSpeechButton.setVisibility(View.VISIBLE);
                     textToSpeech.speak(returnValue.second, TextToSpeech.QUEUE_FLUSH, null);
                     patternView.setViewMode(PatternLockView.PatternViewMode.CORRECT);
-                    patternString = patternBuilder.toString();
                 }
                 else{
                     patternView.setViewMode(PatternLockView.PatternViewMode.WRONG);
