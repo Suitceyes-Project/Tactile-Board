@@ -10,8 +10,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.be.better.tactileboard.databinding.ShowDictBinding;
+import com.be.better.tactileboard.viewmodels.DictionaryEntriesViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,22 +28,37 @@ import java.util.Set;
 public class ShowDict extends AppCompatActivity {
 
     private Button delete;
-    private HashMap<String, String> dict;
+    public static HashMap<String, String> dict; // TODO: use service
     private ArrayList<String> words = new ArrayList<>();
+    private ShowDictBinding binding;
+    private DictionaryEntriesViewModel viewModel;
+    DictEntryRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.show_dict);
 
         dict = new HashMap<String, String >();
         Intent i = getIntent();
         dict = (HashMap<String, String>) i.getSerializableExtra("dict");
 
-        createWordList();
+        viewModel = new ViewModelProvider(this).get(DictionaryEntriesViewModel.class);
+        binding = DataBindingUtil.setContentView(this, R.layout.show_dict);
+        binding.setViewModel(viewModel);
+        binding.setLifecycleOwner(this);
+
+        viewModel.getWords().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> strings) {
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        //createWordList();
         initRecyclerView();
+
 
         delete = (Button) findViewById(R.id.delete);
         delete.setOnLongClickListener(new View.OnLongClickListener() {
@@ -61,11 +82,11 @@ public class ShowDict extends AppCompatActivity {
 
     private void initRecyclerView(){
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        DictEntryRecyclerViewAdapter adapter = new DictEntryRecyclerViewAdapter(this, words);
+        adapter = new DictEntryRecyclerViewAdapter(this, viewModel.getWords().getValue());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
-
+    /*
     private void createWordList() {
         Set<String> words = dict.keySet();
         List<String> tmp = new ArrayList<>(words);
@@ -76,6 +97,6 @@ public class ShowDict extends AppCompatActivity {
             //wordList.setText(existing + key + "\n");
             this.words.add(key);
         }
-    }
+    }*/
 
 }

@@ -12,14 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DictEntryRecyclerViewAdapter extends RecyclerView.Adapter<DictEntryRecyclerViewAdapter.ViewHolder> {
     private static final String TAG = "DictEntryRecyclerViewAd";
 
-    private ArrayList<String> texts = new ArrayList<>();
+    private List<String> texts = new ArrayList<>();
     private Context context;
 
-    public DictEntryRecyclerViewAdapter(Context context, ArrayList<String> texts) {
+    public DictEntryRecyclerViewAdapter(Context context, List<String> texts) {
         this.texts = texts;
         this.context = context;
     }
