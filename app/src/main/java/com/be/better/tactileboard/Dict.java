@@ -25,7 +25,7 @@ public class Dict extends HashMap implements Serializable {
         loadDict(dict);
     }
 
-    protected String getKey(String value) {
+    public String getKey(String value) {
         if(dict != null) {
             Set<String> keys = dict.keySet();
 
@@ -39,14 +39,14 @@ public class Dict extends HashMap implements Serializable {
         return "";
     }
 
-    protected void saveDict(SharedPreferences.Editor editor) {
+    public void saveDict(SharedPreferences.Editor editor) {
         String serializedDict = gson.toJson(this.dict);
 
         editor.putString(DICT, serializedDict);
         editor.apply();
     }
 
-    protected void loadDict(HashMap<String,String> dict) {
+    public void loadDict(HashMap<String,String> dict) {
         gson = new Gson();
 
         if (!this.prefs.getString(DICT, "").equals("null")) {
@@ -55,11 +55,11 @@ public class Dict extends HashMap implements Serializable {
         }
     }
 
-    protected void setHashMap(HashMap<String, String> hashDict) {
+    public void setHashMap(HashMap<String, String> hashDict) {
         this.dict = hashDict;
     }
 
-    protected HashMap<String, String> getInstance() {
+    public HashMap<String, String> getInstance() {
         if(this.dict == null) {
             return new HashMap<String, String>();
         } else {
@@ -67,5 +67,5 @@ public class Dict extends HashMap implements Serializable {
         }
     }
 
-    protected SharedPreferences getPrefs() { return this.prefs; }
+    public SharedPreferences getPrefs() { return this.prefs; }
 }
