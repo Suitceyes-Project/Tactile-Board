@@ -24,11 +24,10 @@ public class NewEntryActivity extends AppCompatActivity {
     protected static EditText newWord;
     private Button wordAdded;
     private Button showDict;
-    private String haptogram = "";
     private PatternLockView patternView;
+    private Button clearButton;
     private HashMap<String, String> dict;
-
-    private boolean validHaptogram = true;
+    private StringBuilder patternBuilder = new StringBuilder();
 
     private PatternLockViewListener patternListener = new PatternLockViewListener() {
         @Override
@@ -47,15 +46,22 @@ public class NewEntryActivity extends AppCompatActivity {
 
         @Override
         public void onComplete(List<PatternLockView.Dot> pattern) {
-            haptogram = MPatternLockUtils.patternToString(patternView, pattern);
+            // Check if there is a word with the current pattern
+            // if yes, update hint
+            String haptogram = MPatternLockUtils.patternToString(patternView, pattern);
 
-            checkHaptogram(haptogram);
+            if(haptogram.isEmpty())
+                return;
+
+            if(patternBuilder.length() > 0)
+                patternBuilder.append(',');
+
+            patternBuilder.append(haptogram);
         }
 
         @Override
         public void onCleared() {
             Log.d(getClass().getName(), "Pattern has been cleared");
-            haptogram = "";
         }
     };
 
@@ -75,7 +81,7 @@ public class NewEntryActivity extends AppCompatActivity {
         }
 
         newWord = (EditText) findViewById(R.id.newWord);
-
+        clearButton = (Button) findViewById(R.id.clearButton);
         patternView = (PatternLockView) findViewById(R.id.pattern_lock_view);
 
         patternView.setDotCount(4);
@@ -98,55 +104,61 @@ public class NewEntryActivity extends AppCompatActivity {
         wordAdded.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean entryEntered, haptogramEntered;
+                String haptogram = patternBuilder.toString();
                 String entry = newWord.getText().toString();
                 entry = entry.toLowerCase();
 
-                boolean validWord = checkWord(entry);
-
-                if(entryEntered = entry.equals("") || entry.equals(R.string.new_word)) {
+                // Check if word was entered for haptogram
+                if(entry.isEmpty() || entry.equals(R.string.new_word)) {
                     Toast.makeText(NewEntryActivity.this, R.string.no_word,
                             Toast.LENGTH_LONG).show();
                     entry = "";
+                    return;
                 }
-
-                if(haptogramEntered = haptogram.equals("")) {
+                 // Check if haptogram itself was empty
+                if(haptogram.isEmpty()) {
                     Toast.makeText(NewEntryActivity.this, R.string.no_pattern,
                             Toast.LENGTH_LONG).show();
+                    return;
                 }
 
-                if (!validWord) {
+                // Check if entry already exists in dict
+                if (!isValidWord(entry)) {
                     patternView.setViewMode(PatternLockView.PatternViewMode.WRONG);
-
-                    if(!validHaptogram) {
-                        Toast.makeText(NewEntryActivity.this, R.string.pattern_exists,
-                                Toast.LENGTH_LONG).show();
-                        newWord.setText("");
-                        checkHaptogram(haptogram);
-                    } else {
-                        Toast.makeText(NewEntryActivity.this, R.string.word_exists,
-                                Toast.LENGTH_LONG).show();
-                        String existingVal = dict.get(entry);
-                        showHaptogram(existingVal);
-                    }
-                }
-
-                if(validHaptogram && validWord && !entryEntered && !haptogramEntered) {
-
-                    Toast.makeText(NewEntryActivity.this, R.string.word_inserted,
+                    Toast.makeText(NewEntryActivity.this, R.string.word_exists,
                             Toast.LENGTH_LONG).show();
-
-                    dict.put(entry, haptogram);
-
-                    haptogram = "";
-                    entry = "";
-                    newWord.setHint(R.string.new_word);
-                    patternView.clearPattern();
-
-                    Intent i = new Intent(NewEntryActivity.this, MainActivity.class);
-                    i.putExtra("dict", dict);
-                    startActivity(i);
+                    String existingVal = dict.get(entry);
+                    showHaptogram(existingVal);
+                    return;
                 }
+
+                // Check if the haptogram already exists.
+                if(!isValidHaptogram(haptogram))
+                {
+                    Toast.makeText(NewEntryActivity.this, R.string.pattern_exists,
+                            Toast.LENGTH_LONG).show();
+                    newWord.setText("");
+                    patternView.setViewMode(PatternLockView.PatternViewMode.WRONG);
+                    showWord(haptogram);
+                    patternBuilder.setLength(0);
+                    return;
+                }
+
+                // If we get here the haptogram and word is valid and we can add the entry.
+                Toast.makeText(NewEntryActivity.this, R.string.word_inserted,
+                        Toast.LENGTH_LONG).show();
+
+                dict.put(entry, haptogram);
+                patternView.setViewMode(PatternLockView.PatternViewMode.CORRECT);
+                patternBuilder.setLength(0);
+                entry = "";
+                newWord.setHint(R.string.new_word);
+                patternView.clearPattern();
+
+                // Go back to main activity
+                Intent i = new Intent(NewEntryActivity.this, MainActivity.class);
+                i.putExtra("dict", dict);
+                startActivity(i);
             }
         });
 
@@ -160,28 +172,32 @@ public class NewEntryActivity extends AppCompatActivity {
             }
         });
 
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                patternBuilder.setLength(0);
+                patternView.clearPattern();
+            }
+        });
     }
 
-    private void checkHaptogram(String haptogram) {
-        if(!dict.isEmpty() && !haptogram.equals("")) {
-            validHaptogram = !dict.containsValue(haptogram);
-        } else {
-            validHaptogram = true;
-        }
+    private Boolean isValidHaptogram(String haptogram) {
+        if(haptogram.isEmpty())
+            return false;
 
-        if(validHaptogram) {
-            patternView.setViewMode(PatternLockView.PatternViewMode.CORRECT);
-        } else {
-            patternView.setViewMode(PatternLockView.PatternViewMode.WRONG);
-            showWord(haptogram);
-            this.haptogram = "";
-        }
+        if(!dict.isEmpty() && dict.containsValue(haptogram))
+            return false;
+
+        return true;
     }
 
-    private boolean checkWord(String entry) {
-        if(!dict.isEmpty()) {
-            return !dict.containsKey(entry);
-        }
+    private boolean isValidWord(String entry) {
+        if(entry.isEmpty())
+            return false;
+
+        if(!dict.isEmpty() && dict.containsKey(entry))
+            return false;
+
         return true;
     }
 
@@ -199,12 +215,12 @@ public class NewEntryActivity extends AppCompatActivity {
         AutoDraw thread = new AutoDraw(patternView, haptogram, sec);
         thread.start();
 
-        this.haptogram = "";
+        patternBuilder.setLength(0);
     }
 
     @Override
     public void onBackPressed() {
-        haptogram = "";
+        patternBuilder.setLength(0);
         newWord.setHint(R.string.new_word);
         patternView.clearPattern();
 

@@ -18,9 +18,9 @@ public class VibrationPattern {
     private double duration;
     private TreeSet<Frame> frames;
 
-    VibrationPattern(boolean isLooped, double duration) {
+    VibrationPattern(boolean isLooped) {
         this.isLooped = isLooped;
-        this.duration = duration;
+        this.duration = 0.0;
         // frames must be sorted by time
         frames = new TreeSet<Frame>(new Comparator<Frame>() {
             @Override
@@ -35,6 +35,9 @@ public class VibrationPattern {
     }
 
     public void addFrame(Frame frame) {
+
+        if(frame.getTime() > duration)
+            duration = frame.getTime();
 
         // adds actuators to existing frame, if they should be transmitted at the same time
         for(Frame f : frames) {
