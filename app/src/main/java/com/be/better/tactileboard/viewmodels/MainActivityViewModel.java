@@ -36,26 +36,51 @@ public class MainActivityViewModel extends AndroidViewModel {
         messageManager = new MessageManager();
     }
 
+    /**
+     * Gets the number of rows of the haptogram grid.
+     * @return
+     */
     public LiveData<Integer> getRows() {
         return rows;
     }
 
+    /**
+     * Gets the number of columns of the haptogram grid.
+     * @return
+     */
     public LiveData<Integer> getColumns() {
         return columns;
     }
 
+    /**
+     * Gets the translation string for the drawn haptogram.
+     * @return
+     */
     public LiveData<String> getWrittenTranslation() {
         return writtenTranslation;
     }
 
+    /**
+     * Gets a value indicating whether the text-to-speech button should be displayed.
+     * @return
+     */
     public LiveData<Boolean> getShowTextToSpeech() {
         return showTextToSpeech;
     }
 
+    /**
+     * Gets a value indicating whether the haptogram pattern is correct.
+     * @return
+     */
     public LiveData<Boolean> getIsPatternCorrect() {
         return isPatternCorrect;
     }
 
+    /**
+     * Gets a value holding a comma separated encoding of the haptogram.
+     * E.g. 0,1,2,3
+     * @return
+     */
     public LiveData<String> getEncodedHaptogramString() {
         return encodedHaptogramString;
     }
