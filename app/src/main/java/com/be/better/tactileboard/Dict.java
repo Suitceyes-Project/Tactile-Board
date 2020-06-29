@@ -3,6 +3,8 @@ package com.be.better.tactileboard;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.Gson;
 
 import java.io.Serializable;
@@ -57,7 +59,7 @@ public class Dict extends HashMap implements Serializable {
         this.dict = hashDict;
     }
 
-    protected HashMap<String, String> getHashMap () {
+    protected HashMap<String, String> getInstance() {
         if(this.dict == null) {
             return new HashMap<String, String>();
         } else {
