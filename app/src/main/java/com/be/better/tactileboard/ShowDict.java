@@ -10,6 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,8 +22,8 @@ import java.util.Set;
 public class ShowDict extends AppCompatActivity {
 
     private Button delete;
-    private TextView wordList;
     private HashMap<String, String> dict;
+    private ArrayList<String> words = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +36,8 @@ public class ShowDict extends AppCompatActivity {
         Intent i = getIntent();
         dict = (HashMap<String, String>) i.getSerializableExtra("dict");
 
-        wordList = (TextView) findViewById(R.id.wordList);
-
         createWordList();
+        initRecyclerView();
 
         delete = (Button) findViewById(R.id.delete);
         delete.setOnLongClickListener(new View.OnLongClickListener() {
@@ -56,7 +57,13 @@ public class ShowDict extends AppCompatActivity {
                 return true;
             }
         });
+    }
 
+    private void initRecyclerView(){
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        DictEntryRecyclerViewAdapter adapter = new DictEntryRecyclerViewAdapter(this, words);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void createWordList() {
@@ -65,8 +72,9 @@ public class ShowDict extends AppCompatActivity {
         Collections.sort(tmp);
 
         for (String key : tmp) {
-            String existing = wordList.getText().toString();
-            wordList.setText(existing + key + "\n");
+            //String existing = wordList.getText().toString();
+            //wordList.setText(existing + key + "\n");
+            this.words.add(key);
         }
     }
 

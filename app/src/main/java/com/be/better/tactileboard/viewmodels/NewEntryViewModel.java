@@ -1,7 +1,6 @@
 package com.be.better.tactileboard.viewmodels;
 
 import android.app.Application;
-import android.content.Intent;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;

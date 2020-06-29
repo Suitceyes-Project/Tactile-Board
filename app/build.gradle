@@ -41,4 +41,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
     // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
+
+    // Recycler view
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
 }
