@@ -7,13 +7,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.andrognito.patternlockview.PatternLockView;
 import com.be.better.tactileboard.MPatternLockUtils;
-import com.be.better.tactileboard.MainActivity;
 import com.be.better.tactileboard.MessageFactory;
 import com.be.better.tactileboard.MessageManager;
 import com.be.better.tactileboard.R;
+import com.be.better.tactileboard.ServiceLocator;
 import com.be.better.tactileboard.Tuple;
 import com.be.better.tactileboard.VibrationPattern;
 import com.be.better.tactileboard.VibrationPatternFactory;
+import com.be.better.tactileboard.services.IWordRepository;
 
 import java.util.List;
 
@@ -28,12 +29,14 @@ public class MainActivityViewModel extends AndroidViewModel {
     private MessageManager messageManager;
     private StringBuilder patternBuilder = new StringBuilder();
     private MutableLiveData<String> encodedHaptogramString = new MutableLiveData<>();
+    private IWordRepository wordRepository;
 
     public MainActivityViewModel(@NonNull Application application) {
         super(application);
         writtenTranslation.setValue("Translation");
         showTextToSpeech.setValue(false);
         messageManager = new MessageManager();
+        wordRepository = ServiceLocator.get(IWordRepository.class);
     }
 
     /**
@@ -133,13 +136,15 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     private Tuple<Boolean, String> tryTranslatePattern(String pattern){ // TODO: move to service
         Tuple<Boolean, String> returnValues = new Tuple();
-        if(MainActivity.dict.getInstance() == null){
+        String word = wordRepository.getWord(pattern);
+        if(word == null) {
             returnValues.first = false;
         }
         else{
-            returnValues.second = MainActivity.dict.getKey(pattern);
-            returnValues.first = !returnValues.second.isEmpty();
+            returnValues.first = true;
+            returnValues.second = word;
         }
+
         return returnValues;
     }
 }

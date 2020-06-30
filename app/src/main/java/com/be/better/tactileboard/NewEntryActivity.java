@@ -30,8 +30,6 @@ public class NewEntryActivity extends AppCompatActivity {
     protected static EditText newWord;
     private Button showDict;
     private PatternLockView patternView;
-    private Button clearButton;
-    public static HashMap<String, String> dict;
     private StringBuilder patternBuilder = new StringBuilder();
     private AddWordBinding binding;
     private NewEntryViewModel viewModel;
@@ -69,15 +67,6 @@ public class NewEntryActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.add_word);
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
-        //setContentView(R.layout.add_word);
-
-        Intent i = getIntent();
-        HashMap<String, String> map = new HashMap<String, String>((HashMap<String, String>) i.getSerializableExtra("dict"));
-        if(map == null) {
-            dict = new HashMap<String, String >();
-        } else {
-            dict = map;
-        }
 
         // Setup bindings
         viewModel.getIsValidHaptogram().observe(this, new Observer<Boolean>() {
@@ -105,7 +94,6 @@ public class NewEntryActivity extends AppCompatActivity {
         });
 
         newWord = (EditText) findViewById(R.id.newWord);
-        clearButton = (Button) findViewById(R.id.clearButton);
         initPatternView();
 
         showDict = (Button) findViewById(R.id.showDict);
@@ -113,7 +101,6 @@ public class NewEntryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(NewEntryActivity.this, ShowDict.class);
-                i.putExtra("dict", dict);
                 startActivity(i);
             }
         });
@@ -140,9 +127,11 @@ public class NewEntryActivity extends AppCompatActivity {
     }
 
     private void showWord(String haptogram) {
+        // TODO: Refactor this
+        /*
         String key = MainActivity.dict.getKey(haptogram);
         newWord.setText("");
-        newWord.setHint("Meaning: " + key);
+        newWord.setHint("Meaning: " + key);*/
     }
 
     private void showHaptogram(String haptogram) {
@@ -163,7 +152,6 @@ public class NewEntryActivity extends AppCompatActivity {
         patternView.clearPattern();
 
         Intent i = new Intent(NewEntryActivity.this, MainActivity.class);
-        i.putExtra("dict", dict);
         startActivity(i);
     }
 }

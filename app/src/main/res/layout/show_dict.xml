@@ -16,6 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="32dp"
             android:text="Delete All"
+            android:longClickable="true"
+            android:onClick="@{() -> viewModel.onClear()}"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"/>
 

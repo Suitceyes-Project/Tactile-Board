@@ -37,10 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private MainActivityViewModel viewModel;
-    public static Dict dict;
-
-    protected static SharedPreferences prefs;
-    protected static SharedPreferences.Editor editor;
 
     private PatternLockViewListener patternListener = new PatternLockViewListener() {
         @Override
@@ -105,15 +101,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if(dict == null) {
-            SharedPreferences prefs = getSharedPreferences("DICT", Context.MODE_PRIVATE);
-            dict = new Dict(prefs);
-        } else {
-            Intent i = getIntent();
-            HashMap<String, String> hashDict = (HashMap<String, String>) i.getSerializableExtra("dict");
-            dict.setHashMap(hashDict);
-        }
-
         textToSpeechButton = (ImageButton) findViewById(R.id.textToSpeech);
 
         addWord = (Button) findViewById(R.id.addWord);
@@ -121,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, NewEntryActivity.class);
-                i.putExtra("dict", dict.getInstance());
                 startActivity(i);
             }
         });
@@ -171,41 +157,9 @@ public class MainActivity extends AppCompatActivity {
         patternView.setTactileFeedbackEnabled(false);
     }
 
-    private Tuple<Boolean, String> tryTranslatePattern(String pattern){
-        Tuple<Boolean, String> returnValues = new Tuple();
-        if(dict.getInstance() == null){
-            returnValues.first = false;
-        }
-        else{
-            returnValues.second = dict.getKey(pattern);
-            returnValues.first = !returnValues.second.isEmpty();
-        }
-        return returnValues;
-    }
-
-    /*
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        editor = prefs.edit();
-        dict.saveDict(editor);
-    }*/
-
-    @Override
-    public void onBackPressed() {
-
-        editor = getSharedPreferences("DICT", Context.MODE_PRIVATE).edit();
-        dict.saveDict(editor);
-    }
-
     @Override
     protected void onStop() {
         super.onStop();
-
-        editor = getSharedPreferences("DICT", Context.MODE_PRIVATE).edit();
-        dict.saveDict(editor);
-
         patternView.clearPattern();
     }
 }

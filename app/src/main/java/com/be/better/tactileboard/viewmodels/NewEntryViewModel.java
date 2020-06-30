@@ -10,10 +10,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.andrognito.patternlockview.PatternLockView;
 import com.be.better.tactileboard.MPatternLockUtils;
-import com.be.better.tactileboard.NewEntryActivity;
 import com.be.better.tactileboard.R;
-
-import java.util.HashMap;
+import com.be.better.tactileboard.ServiceLocator;
+import com.be.better.tactileboard.services.IWordRepository;
 import java.util.List;
 
 public class NewEntryViewModel extends AndroidViewModel {
@@ -22,9 +21,11 @@ public class NewEntryViewModel extends AndroidViewModel {
     private MutableLiveData<String> userFeedbackMessage = new MutableLiveData<>();
     private MutableLiveData<String> encodedHaptogram = new MutableLiveData<>();
     private StringBuilder patternBuilder = new StringBuilder();
+    private IWordRepository wordRepository;
 
     public NewEntryViewModel(@NonNull Application application) {
         super(application);
+        wordRepository = ServiceLocator.get(IWordRepository.class);
     }
 
     public MutableLiveData<String> getNewWord() {
@@ -59,7 +60,6 @@ public class NewEntryViewModel extends AndroidViewModel {
         String haptogram = patternBuilder.toString();
         String entry = newWord.getValue();
         entry = entry.toLowerCase();
-        HashMap<String, String> dict = NewEntryActivity.dict; // TODO: Use service instead
 
         // Check if word was entered for haptogram
         if(TextUtils.isEmpty(entry) || entry.equals(R.string.new_word)) {
@@ -102,10 +102,10 @@ public class NewEntryViewModel extends AndroidViewModel {
         // If we get here the haptogram and word is valid and we can add the entry.
         userFeedbackMessage.setValue(getApplication().getString(R.string.word_inserted));
         isValidHaptogram.setValue(true);
-        dict.put(entry, haptogram);
+        wordRepository.addWord(entry, haptogram);
         patternBuilder.setLength(0);
         newWord.setValue(null);
-        encodedHaptogram = null;
+        encodedHaptogram.setValue(null);
 
         // Go back to main activity
         // TODO: Use navigation components
@@ -116,27 +116,20 @@ public class NewEntryViewModel extends AndroidViewModel {
 
     public void onClearPattern(){
         patternBuilder.setLength(0);
-        encodedHaptogram = null;
+        encodedHaptogram.setValue(null);
     }
 
     private Boolean isValidHaptogram(String haptogram) {
         if(haptogram.isEmpty())
             return false;
-        HashMap<String, String> dict = NewEntryActivity.dict;
-        if(!dict.isEmpty() && dict.containsValue(haptogram))
-            return false;
 
-        return true;
+        return !wordRepository.patternExists(haptogram);
     }
 
     private boolean isValidWord(String entry) {
         if(entry.isEmpty())
             return false;
 
-        HashMap<String, String> dict = NewEntryActivity.dict;
-        if(!dict.isEmpty() && dict.containsKey(entry))
-            return false;
-
-        return true;
+        return !wordRepository.wordExists(entry);
     }
 }

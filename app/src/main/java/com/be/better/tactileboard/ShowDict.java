@@ -27,22 +27,15 @@ import java.util.Set;
 
 public class ShowDict extends AppCompatActivity {
 
-    private Button delete;
-    public static HashMap<String, String> dict; // TODO: use service
-    private ArrayList<String> words = new ArrayList<>();
     private ShowDictBinding binding;
     private DictionaryEntriesViewModel viewModel;
-    DictEntryRecyclerViewAdapter adapter;
+    private DictEntryRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        dict = new HashMap<String, String >();
-        Intent i = getIntent();
-        dict = (HashMap<String, String>) i.getSerializableExtra("dict");
 
         viewModel = new ViewModelProvider(this).get(DictionaryEntriesViewModel.class);
         binding = DataBindingUtil.setContentView(this, R.layout.show_dict);
@@ -56,28 +49,7 @@ public class ShowDict extends AppCompatActivity {
             }
         });
 
-        //createWordList();
         initRecyclerView();
-
-
-        delete = (Button) findViewById(R.id.delete);
-        delete.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-
-                Toast.makeText(ShowDict.this, "Deleted",
-                        Toast.LENGTH_SHORT).show();
-
-                MainActivity.dict.setHashMap(new HashMap<String, String>());
-                MainActivity.dict.saveDict(MainActivity.dict.getPrefs().edit());
-
-                Intent i = new Intent(ShowDict.this, MainActivity.class);
-                i.putExtra("dict", MainActivity.dict);
-                startActivity(i);
-
-                return true;
-            }
-        });
     }
 
     private void initRecyclerView(){
@@ -86,17 +58,4 @@ public class ShowDict extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
-    /*
-    private void createWordList() {
-        Set<String> words = dict.keySet();
-        List<String> tmp = new ArrayList<>(words);
-        Collections.sort(tmp);
-
-        for (String key : tmp) {
-            //String existing = wordList.getText().toString();
-            //wordList.setText(existing + key + "\n");
-            this.words.add(key);
-        }
-    }*/
-
 }
