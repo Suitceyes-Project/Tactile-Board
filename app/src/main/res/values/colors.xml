@@ -8,7 +8,7 @@
     <color name="normal">#9DA29F</color>
     <color name="wrong">#CC4B60</color>
     <color name="correct">#6BEC4B</color>
-    <color name="clear_button_color">#ffb0b0</color>
+    <color name="clear_button_color">#ff5b4f</color>
     <color name="navigation_text">#ffffff</color>
     <color name="navigation_active">#ffffff</color>
     <color name="navigation_inactive">#99ffffff</color>

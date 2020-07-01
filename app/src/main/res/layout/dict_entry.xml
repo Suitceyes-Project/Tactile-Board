@@ -7,8 +7,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
+        android:paddingHorizontal="32dp"
+        android:paddingVertical="8dp"
         android:text="This is a text"
+        android:textSize="20dp"
         android:id="@+id/text"/>
 
 </RelativeLayout>

@@ -20,6 +20,7 @@
             android:text="Delete All"
             android:longClickable="true"
             android:onClick="@{() -> viewModel.onClear()}"
+            android:theme="@style/ClearButton"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"/>
 
