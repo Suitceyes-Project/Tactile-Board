@@ -23,7 +23,16 @@
     <fragment
         android:id="@+id/addWordFragment"
         android:name="com.be.better.tactileboard.AddWordFragment"
-        xmlns:tools="http://schemas.android.com/tools"
         android:label="AddWordFragment"
-        tools:layout="@layout/fragment_add_word"/>
+        tools:layout="@layout/fragment_add_word">
+        <action
+            android:id="@+id/action_addWordFragment_to_dictionaryFragment"
+            app:destination="@id/dictionaryFragment"
+            app:popUpTo="@id/addWordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dictionaryFragment"
+        android:name="com.be.better.tactileboard.DictionaryFragment"
+        android:label="DictionaryFragment"
+        tools:layout="@layout/fragment_dictionary"/>
 </navigation>

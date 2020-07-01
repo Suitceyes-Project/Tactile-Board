@@ -1,6 +1,5 @@
 package com.be.better.tactileboard;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
@@ -97,8 +97,7 @@ public class AddWordFragment extends Fragment {
         showDict.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Intent i = new Intent(NewEntryActivity.this, ShowDict.class);
-                startActivity(i);*/
+                Navigation.findNavController(view).navigate(AddWordFragmentDirections.actionAddWordFragmentToDictionaryFragment());
             }
         });
     }
@@ -128,5 +127,11 @@ public class AddWordFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentAddWordBinding.inflate(inflater, container, false);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 }
