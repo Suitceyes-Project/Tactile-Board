@@ -17,8 +17,7 @@
             app:enterAnim="@anim/anim_slide_in_left"
             app:exitAnim="@anim/anim_slide_out_left"
             app:popEnterAnim="@anim/anim_slide_in_right"
-            app:popExitAnim="@anim/anim_slide_out_right"
-            />
+            app:popExitAnim="@anim/anim_slide_out_right"  />
     </fragment>
     <fragment
         android:id="@+id/addWordFragment"
@@ -28,7 +27,11 @@
         <action
             android:id="@+id/action_addWordFragment_to_dictionaryFragment"
             app:destination="@id/dictionaryFragment"
-            app:popUpTo="@id/addWordFragment" />
+            app:popUpTo="@id/addWordFragment"
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/dictionaryFragment"

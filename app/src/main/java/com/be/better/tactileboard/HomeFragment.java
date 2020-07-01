@@ -29,7 +29,6 @@ import java.util.Locale;
 public class HomeFragment extends Fragment {
 
     private ImageButton textToSpeechButton;
-    private Button addWord;
     private PatternLockView patternView;
     private TextToSpeech textToSpeech;
 
@@ -100,14 +99,6 @@ public class HomeFragment extends Fragment {
         });
 
         textToSpeechButton = (ImageButton) getView().findViewById(R.id.textToSpeech);
-
-        addWord = (Button) getView().findViewById(R.id.addWord);
-        addWord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).navigate(HomeFragmentDirections.actionHomeFragmentToAddWordFragment());
-            }
-        });
 
         textToSpeech = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
             @Override

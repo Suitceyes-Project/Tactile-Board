@@ -1,4 +1,6 @@
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="viewModel"
@@ -7,9 +9,6 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#00312F2F"
@@ -48,36 +47,6 @@
             app:layout_constraintTop_toBottomOf="@+id/pattern_lock_view"
             tools:visibility="visible" />
 
-        <Button
-            android:id="@+id/addWord"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:layout_marginRight="32dp"
-            android:layout_marginBottom="32dp"
-            android:text="+"
-            android:theme="@style/PrimaryButton"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.979"
-            app:layout_constraintStart_toStartOf="parent" />
-
-
-        <Button
-            android:id="@+id/SendMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginBottom="32dp"
-            android:text="Message"
-            android:onClick="@{() -> viewModel.onSendMessage()}"
-            android:theme="@style/PrimaryButton"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pattern_lock_view"
-            app:layout_constraintVertical_bias="1.0" />
-
         <ImageButton
             android:id="@+id/textToSpeech"
             android:layout_width="wrap_content"
@@ -96,6 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:orientation="horizontal"
+            android:paddingHorizontal="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -103,24 +73,38 @@
 
             <Button
                 android:id="@+id/clearButton"
-                android:theme="@style/ClearButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
                 android:layout_weight="1"
                 android:onClick="@{() -> viewModel.onClearHaptogram()}"
-                android:text="@string/clear" />
+                android:text="@string/clear"
+                android:theme="@style/ClearButton" />
 
             <Button
                 android:id="@+id/completeButton"
-                android:theme="@style/PrimaryButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
                 android:layout_weight="1"
-                android:text="@string/complete"
                 android:onClick="@{() -> viewModel.onFinalizeHaptogram()}"
+                android:text="@string/complete"
+                android:theme="@style/PrimaryButton"
                 tools:visibility="visible" />
 
         </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/SendMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginBottom="32dp"
+            android:onClick="@{() -> viewModel.onSendMessage()}"
+            android:src="@drawable/outline_send_white_48"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

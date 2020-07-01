@@ -11,5 +11,5 @@
     <color name="clear_button_color">#ffb0b0</color>
     <color name="navigation_text">#ffffff</color>
     <color name="navigation_active">#ffffff</color>
-    <color name="navigation_inactive">#80ffffff</color>
+    <color name="navigation_inactive">#99ffffff</color>
 </resources>
