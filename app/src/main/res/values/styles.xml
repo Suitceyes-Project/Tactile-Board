@@ -20,4 +20,9 @@
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
     </style>
 
+    <style name="BottomNavigation" parent="AppTheme">
+        <item name="colorPrimary">@color/navigation_active</item>
+        <item name="android:textColorSecondary">@color/navigation_inactive</item>
+    </style>
+
 </resources>

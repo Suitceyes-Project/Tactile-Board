@@ -15,6 +15,7 @@ import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
 import com.be.better.tactileboard.databinding.ActivityMainBinding;
 import com.be.better.tactileboard.viewmodels.MainActivityViewModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import android.widget.Button;
@@ -33,6 +35,7 @@ import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
     private NavController mNavigationController;
+    private BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +43,10 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main_new);
 
+        bottomNavigationView = findViewById(R.id.bttm_nav);
         mNavigationController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
+        NavigationUI.setupWithNavController(bottomNavigationView, mNavigationController);
         //NavigationUI.setupWithNavController(this, mNavigationController);
     }
 
