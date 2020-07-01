@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="viewModel"
             type="com.be.better.tactileboard.viewmodels.NewEntryViewModel" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#00312F2F"
@@ -39,9 +39,9 @@
             android:ems="10"
             android:hint="enter new word here"
             android:inputType="textPersonName"
+            android:text="@={viewModel.newWord}"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#363434"
-            android:text="@={viewModel.newWord}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -60,51 +60,29 @@
 
         <Button
             android:id="@+id/button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:layout_marginRight="32dp"
-            android:layout_marginBottom="32dp"
-            android:text="Add Entry"
+            android:layout_marginHorizontal="8dp"
             android:onClick="@{() -> viewModel.onWordAdded()}"
+            android:text="Add Entry"
             android:theme="@style/PrimaryButton"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/newWord"
+            tools:layout_editor_absoluteX="-18dp" />
 
         <Button
-            android:id="@+id/showDict"
-            android:layout_width="wrap_content"
+            android:id="@+id/clearButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginBottom="32dp"
-            android:text="Show Dict"
-            android:theme="@style/PrimaryButton"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <LinearLayout
-            android:layout_width="409dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-
+            android:layout_weight="1"
+            android:layout_marginHorizontal="8dp"
+            android:text="@string/clear"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pattern_lock_view">
+            app:layout_constraintTop_toBottomOf="@+id/pattern_lock_view"
+            android:onClick="@{() -> viewModel.onClearPattern()}"
+            android:theme="@style/ClearButton" />
 
-            <Button
-                android:id="@+id/clearButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/clear"
-                android:onClick="@{() -> viewModel.onClearPattern()}"
-                android:theme="@style/ClearButton" />
-
-        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

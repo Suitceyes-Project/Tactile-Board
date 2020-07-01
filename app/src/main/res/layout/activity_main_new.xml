@@ -7,13 +7,6 @@
     android:layout_height="match_parent"
     tools:context="com.be.better.tactileboard.MainActivity">
 
-    <!--  We use attribute id with name nav_host_fragment to hook up later with NavController in
-@MainActivity.class  -->
-    <!--  Attribute name will change behavior of simple fragment to NavHostFragment  -->
-    <!--  Width and height are set to match_parent since it occupies whole layout for fragments  -->
-    <!--  We change this NavHost to behave default NavHostFragment  -->
-    <!--  Earlier we created xml file navigation we hook this here to set this as default navGraph
-      for our app  -->
     <fragment
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"

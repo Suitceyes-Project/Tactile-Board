@@ -27,7 +27,6 @@ import java.util.List;
 
 public class AddWordFragment extends Fragment {
     protected EditText newWord;
-    private Button showDict;
     private PatternLockView patternView;
     private FragmentAddWordBinding binding;
     private NewEntryViewModel viewModel;
@@ -92,14 +91,6 @@ public class AddWordFragment extends Fragment {
 
         newWord = (EditText) getView().findViewById(R.id.newWord);
         initPatternView();
-
-        showDict = (Button) getView().findViewById(R.id.showDict);
-        showDict.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).navigate(AddWordFragmentDirections.actionAddWordFragmentToDictionaryFragment());
-            }
-        });
     }
 
     private void initPatternView() {
