@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_main_new);
+        setContentView(R.layout.activity_main);
         mNavigationController = Navigation.findNavController(this, R.id.nav_host_fragment);
         bottomNavigationView = findViewById(R.id.bttm_nav);
         NavigationUI.setupWithNavController(bottomNavigationView, mNavigationController);

@@ -1,124 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-    <data>
-        <variable
-            name="viewModel"
-            type="com.be.better.tactileboard.viewmodels.MainActivityViewModel" />
-        <import type="android.view.View" />
-    </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.be.better.tactileboard.MainActivity">
+
+    <fragment
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#00312F2F"
-        tools:context=".MainActivity">
+        app:defaultNavHost="true"
+        android:layout_marginBottom="56dp"
+        app:navGraph="@navigation/navigation" />
 
-        <com.andrognito.patternlockview.PatternLockView
-            android:id="@+id/pattern_lock_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="#141414"
-            android:keepScreenOn="true"
-            android:visibility="visible"
-            app:correctStateColor="#6BEC4B"
-            app:dotNormalSize="70dp"
-            app:dotSelectedSize="70dp"
-            app:layout_constraintBottom_toTopOf="@+id/Text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:normalStateColor="#9DA29F"
-            app:wrongStateColor="#CC4B60" />
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bttm_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:menu="@menu/bottom_menu_nav"/>
 
-        <TextView
-            android:id="@+id/Text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="112dp"
-            android:layout_marginBottom="123dp"
-            android:text="@{viewModel.writtenTranslation}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pattern_lock_view"
-            tools:visibility="visible" />
-
-        <Button
-            android:id="@+id/addWord"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:layout_marginRight="32dp"
-            android:layout_marginBottom="32dp"
-            android:text="+"
-            android:theme="@style/PrimaryButton"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.979"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/SendMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginBottom="32dp"
-            android:text="Message"
-            android:onClick="@{() -> viewModel.onSendMessage()}"
-            android:theme="@style/PrimaryButton"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pattern_lock_view"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <ImageButton
-            android:id="@+id/textToSpeech"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="@{viewModel.showTextToSpeech ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toTopOf="@+id/Text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pattern_lock_view"
-            app:layout_constraintVertical_bias="0.811"
-            app:srcCompat="@drawable/baseline_record_voice_over_black_24" />
-
-        <LinearLayout
-            android:layout_width="409dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pattern_lock_view">
-
-            <Button
-                android:id="@+id/clearButton"
-                android:theme="@style/ClearButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="@{() -> viewModel.onClearHaptogram()}"
-                android:text="@string/clear" />
-
-            <Button
-                android:id="@+id/completeButton"
-                android:theme="@style/PrimaryButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/complete"
-                android:onClick="@{() -> viewModel.onFinalizeHaptogram()}"
-                tools:visibility="visible" />
-
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</FrameLayout>
