@@ -10,16 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 
 import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
@@ -27,6 +26,7 @@ import com.andrognito.patternlockview.utils.PatternLockUtils;
 import com.be.better.tactileboard.databinding.FragmentHomeBinding;
 import com.be.better.tactileboard.services.IWordRepository;
 import com.be.better.tactileboard.viewmodels.MainActivityViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Collection;
 import java.util.List;
@@ -37,6 +37,7 @@ public class HomeFragment extends Fragment {
     private ImageButton textToSpeechButton;
     private PatternLockView patternView;
     private TextToSpeech textToSpeech;
+    private FloatingActionButton sendButton;
 
     private FragmentHomeBinding binding;
     private MainActivityViewModel viewModel;
@@ -106,8 +107,6 @@ public class HomeFragment extends Fragment {
 
         textToSpeechButton = (ImageButton) getView().findViewById(R.id.textToSpeech);
 
-
-
         textToSpeech = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -122,6 +121,35 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 speak();
+            }
+        });
+
+        viewModel.getFeedbackText().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                if(TextUtils.isEmpty(s))
+                    return;
+
+                Toast.makeText(getActivity().getApplicationContext(), s, Toast.LENGTH_LONG).show();
+            }
+        });
+
+        viewModel.getDots().observe(getViewLifecycleOwner(), new Observer<List<PatternLockView.Dot>>() {
+            @Override
+            public void onChanged(List<PatternLockView.Dot> dots) {
+                patternView.setPattern(PatternLockView.PatternViewMode.AUTO_DRAW, dots);
+            }
+        });
+
+        sendButton = binding.getRoot().findViewById(R.id.SendMessage);
+        sendButton.hide();
+        viewModel.getIsSendVisible().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean)
+                    sendButton.show();
+                else
+                    sendButton.hide();
             }
         });
 

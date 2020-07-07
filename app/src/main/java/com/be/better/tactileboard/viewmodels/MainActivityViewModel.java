@@ -31,6 +31,8 @@ public class MainActivityViewModel extends AndroidViewModel {
     private MutableLiveData<Boolean> isPatternCorrect = new MutableLiveData<>();
     private MutableLiveData<String> enteredText = new MutableLiveData<>();
     private MutableLiveData<String> feedbackText = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isSendVisible = new MutableLiveData<>();
+    private MutableLiveData<List<PatternLockView.Dot>> dots = new MutableLiveData<>();
     private MessageManager messageManager;
     private StringBuilder patternBuilder = new StringBuilder();
     private MutableLiveData<String> encodedHaptogramString = new MutableLiveData<>();
@@ -105,6 +107,14 @@ public class MainActivityViewModel extends AndroidViewModel {
         return feedbackText;
     }
 
+    public MutableLiveData<List<PatternLockView.Dot>> getDots() {
+        return dots;
+    }
+
+    public MutableLiveData<Boolean> getIsSendVisible() {
+        return isSendVisible;
+    }
+
     public void onCompleteStroke(List<PatternLockView.Dot> pattern){
         String haptogram = MPatternLockUtils.patternToString(rows.getValue(), columns.getValue(), pattern);
 
@@ -124,11 +134,13 @@ public class MainActivityViewModel extends AndroidViewModel {
             writtenTranslation.setValue(returnValue.second);
             showTextToSpeech.setValue(true);
             isPatternCorrect.setValue(true);
+            isSendVisible.setValue(true);
         }
         else {
             isPatternCorrect.setValue(false);
             showTextToSpeech.setValue(false);
             writtenTranslation.setValue(getApplication().getString(R.string.not_known));
+            isSendVisible.setValue(false);
         }
 
         patternBuilder.setLength(0);
@@ -141,6 +153,7 @@ public class MainActivityViewModel extends AndroidViewModel {
         showTextToSpeech.setValue(false);
         writtenTranslation.setValue("Draw Haptogram or enter text");
         encodedHaptogramString.setValue(null);
+        isSendVisible.setValue(false);
     }
 
     public void onSendMessage(){
@@ -164,9 +177,11 @@ public class MainActivityViewModel extends AndroidViewModel {
             return;
         }
 
-        writtenTranslation.setValue(enteredText);
         encodedHaptogramString.setValue(wordRepository.getPattern(enteredText));
+        writtenTranslation.setValue(enteredText);
         showTextToSpeech.setValue(true);
+        dots.setValue(MPatternLockUtils.stringToPattern(rows.getValue(), columns.getValue(), wordRepository.getPattern(enteredText)));
+        isSendVisible.setValue(true);
     }
 
     private Tuple<Boolean, String> tryTranslatePattern(String pattern){ // TODO: move to service
