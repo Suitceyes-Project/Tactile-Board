@@ -1,6 +1,9 @@
 package com.be.better.tactileboard.viewmodels;
 
 import android.app.Application;
+import android.text.TextUtils;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -26,6 +29,8 @@ public class MainActivityViewModel extends AndroidViewModel {
     private MutableLiveData<String> writtenTranslation = new MutableLiveData<>();
     private MutableLiveData<Boolean> showTextToSpeech = new MutableLiveData<>();
     private MutableLiveData<Boolean> isPatternCorrect = new MutableLiveData<>();
+    private MutableLiveData<String> enteredText = new MutableLiveData<>();
+    private MutableLiveData<String> feedbackText = new MutableLiveData<>();
     private MessageManager messageManager;
     private StringBuilder patternBuilder = new StringBuilder();
     private MutableLiveData<String> encodedHaptogramString = new MutableLiveData<>();
@@ -33,7 +38,7 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public MainActivityViewModel(@NonNull Application application) {
         super(application);
-        writtenTranslation.setValue("Translation");
+        writtenTranslation.setValue("Draw Haptogram or enter text");
         showTextToSpeech.setValue(false);
         messageManager = new MessageManager();
         wordRepository = ServiceLocator.get(IWordRepository.class);
@@ -88,6 +93,18 @@ public class MainActivityViewModel extends AndroidViewModel {
         return encodedHaptogramString;
     }
 
+    /**
+     * Gets the entered text.
+     * @return
+     */
+    public MutableLiveData<String> getEnteredText() {
+        return enteredText;
+    }
+
+    public MutableLiveData<String> getFeedbackText() {
+        return feedbackText;
+    }
+
     public void onCompleteStroke(List<PatternLockView.Dot> pattern){
         String haptogram = MPatternLockUtils.patternToString(rows.getValue(), columns.getValue(), pattern);
 
@@ -122,7 +139,7 @@ public class MainActivityViewModel extends AndroidViewModel {
         patternBuilder.setLength(0);
         encodedHaptogramString.setValue(null);
         showTextToSpeech.setValue(false);
-        writtenTranslation.setValue("Translation");
+        writtenTranslation.setValue("Draw Haptogram or enter text");
         encodedHaptogramString.setValue(null);
     }
 
@@ -132,6 +149,24 @@ public class MainActivityViewModel extends AndroidViewModel {
 
         VibrationPattern vibrationPattern = VibrationPatternFactory.create(MPatternLockUtils.stringToPattern(getRows().getValue(), getColumns().getValue(), encodedHaptogramString.getValue()));
         messageManager.sendMessage(MessageFactory.create("TactileBoard", vibrationPattern));
+    }
+
+    public void onEnterTextComplete(){
+        Log.d("MainActivityViewModel", "On Enter Text");
+        String enteredText = getEnteredText().getValue();
+        getEnteredText().setValue(null);
+        if(TextUtils.isEmpty(enteredText))
+            return;
+
+        enteredText = enteredText.toLowerCase();
+        if(!wordRepository.wordExists(enteredText)){
+            feedbackText.setValue("Word does not exist.");
+            return;
+        }
+
+        writtenTranslation.setValue(enteredText);
+        encodedHaptogramString.setValue(wordRepository.getPattern(enteredText));
+        showTextToSpeech.setValue(true);
     }
 
     private Tuple<Boolean, String> tryTranslatePattern(String pattern){ // TODO: move to service

@@ -4,11 +4,15 @@ import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,8 +25,10 @@ import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
 import com.be.better.tactileboard.databinding.FragmentHomeBinding;
+import com.be.better.tactileboard.services.IWordRepository;
 import com.be.better.tactileboard.viewmodels.MainActivityViewModel;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
@@ -100,6 +106,8 @@ public class HomeFragment extends Fragment {
 
         textToSpeechButton = (ImageButton) getView().findViewById(R.id.textToSpeech);
 
+
+
         textToSpeech = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -114,6 +122,25 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 speak();
+            }
+        });
+
+        setupAutoCompleteTextView();
+    }
+
+    private void setupAutoCompleteTextView() {
+        IWordRepository wordRepository = ServiceLocator.get(IWordRepository.class);
+        Collection<String> wordCollection = wordRepository.getAllWords();
+        String[] words =  wordCollection.toArray(new String[wordCollection.size()]);
+        AutoCompleteTextView autoCompleteTextView = binding.getRoot().findViewById(R.id.auto_complete);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity().getApplicationContext(), android.R.layout.simple_dropdown_item_1line, words);
+        autoCompleteTextView.setAdapter(adapter);
+        autoCompleteTextView.setThreshold(1);
+        autoCompleteTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                viewModel.onEnterTextComplete();
+                return true;
             }
         });
     }
