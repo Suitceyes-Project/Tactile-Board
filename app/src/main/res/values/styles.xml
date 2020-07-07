@@ -1,23 +1,26 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="bottomNavigationStyle">@style/BottomNavigation</item>
+        <item name="android:inAnimation">@anim/anim_slide_in_left</item>
+        <item name="android:outAnimation">@anim/anim_slide_out_right</item>
     </style>
 
-    <style name="PrimaryButton" parent="AppTheme">
-        <item name="colorButtonNormal">@color/colorAccent</item>
-        <item name="colorControlHighlight">@color/colorPrimary</item>
-        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+    <style name="PrimaryButton" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/suitceyes</item>
     </style>
 
-    <style name="ClearButton" parent="AppTheme">
-        <item name="colorButtonNormal">@color/clear_button_color</item>
-        <item name="colorControlHighlight">@color/colorPrimary</item>
-        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+    <style name="ClearButton" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/clear_button_color</item>
+    </style>
+
+    <style name="BottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="android:background">@color/suitceyes</item>
     </style>
 
 </resources>
