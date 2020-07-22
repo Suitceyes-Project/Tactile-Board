@@ -14,4 +14,17 @@
     <string name="complete">Complete</string>
     <string name="clear">Clear</string>
 
+    <!-- Preferences -->
+    <string name="pref_actuator_first_frame_long_key">first_frame_long</string>
+    <string name="pref_actuator_first_frame_long_title">Enable Reference Frame</string>
+    <string name="pref_actuator_first_frame_long_desc">If activated, the first vibration is longer.</string>
+
+    <string name="pref_actuator_frame_time_key">frame_time</string>
+    <string name="pref_actuator_frame_time_title">Actuator Frame Duration</string>
+    <string name="pref_actuator_frame_time_desc">The duration of one single frame in ms. This determines how long a single actuator vibrates.</string>
+
+    <string name="pref_actuator_frame_overlap_key">frame_overlap</string>
+    <string name="pref_actuator_frame_overlap_title">Actuator Overlap Time</string>
+    <string name="pref_actuator_frame_overlap_desc">The duration of the overlap of two frames in ms.</string>
+
 </resources>
