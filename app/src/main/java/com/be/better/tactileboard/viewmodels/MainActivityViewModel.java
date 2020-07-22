@@ -2,6 +2,7 @@ package com.be.better.tactileboard.viewmodels;
 
 import android.app.Application;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
@@ -14,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.preference.PreferenceManager;
+
 import com.andrognito.patternlockview.PatternLockView;
 import com.be.better.tactileboard.MPatternLockUtils;
 import com.be.better.tactileboard.MessageFactory;
@@ -236,7 +239,6 @@ public class MainActivityViewModel extends AndroidViewModel {
         }
 
         patternBuilder.setLength(0);
-        encodedHaptogramString.setValue(null);
     }
 
     public void onClearHaptogram(){
@@ -252,9 +254,21 @@ public class MainActivityViewModel extends AndroidViewModel {
         if(encodedHaptogramString.getValue() == null || encodedHaptogramString.getValue().isEmpty())
             return;
 
-        VibrationPattern vibrationPattern = VibrationPatternFactory.create(MPatternLockUtils.stringToPattern(getRows().getValue(), getColumns().getValue(), encodedHaptogramString.getValue()));
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
+
+        float frameDuration = prefs.getInt(getApplication().getResources().getString(R.string.pref_actuator_frame_time_key), 300) / 1000f;
+        float frameOverlap = prefs.getInt(getApplication().getResources().getString(R.string.pref_actuator_frame_overlap_key), 100) / 1000f;
+        boolean useReferenceFrame = prefs.getBoolean(getApplication().getResources().getString(R.string.pref_actuator_first_frame_long_key), false);
+
+        VibrationPattern vibrationPattern = VibrationPatternFactory.create(MPatternLockUtils.stringToPattern(getRows().getValue(), getColumns().getValue(), encodedHaptogramString.getValue()),
+                useReferenceFrame, frameDuration, frameOverlap);
         messageManager.sendMessage(MessageFactory.create("TactileBoard", vibrationPattern));
+        feedbackText.setValue("Sending...");
+        onClearHaptogram();
     }
+
+
 
     public void onEnterTextComplete(){
         Log.d(TAG, "On Enter Text");
