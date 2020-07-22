@@ -1,6 +1,12 @@
 package com.be.better.tactileboard.viewmodels;
 
 import android.app.Application;
+import android.content.Intent;
+import android.nfc.Tag;
+import android.os.Bundle;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -19,10 +25,15 @@ import com.be.better.tactileboard.VibrationPattern;
 import com.be.better.tactileboard.VibrationPatternFactory;
 import com.be.better.tactileboard.services.IWordRepository;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
 public class MainActivityViewModel extends AndroidViewModel {
+
+    private static final String TAG = "MainActivityViewModel";
+
     private MutableLiveData<Integer> rows = new MutableLiveData<>(4);        // Should be moved to config file.
     private MutableLiveData<Integer> columns = new MutableLiveData<>(4);
 
@@ -33,10 +44,80 @@ public class MainActivityViewModel extends AndroidViewModel {
     private MutableLiveData<String> feedbackText = new MutableLiveData<>();
     private MutableLiveData<Boolean> isSendVisible = new MutableLiveData<>();
     private MutableLiveData<List<PatternLockView.Dot>> dots = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isSpeechAvailable = new MutableLiveData<>();
     private MessageManager messageManager;
     private StringBuilder patternBuilder = new StringBuilder();
     private MutableLiveData<String> encodedHaptogramString = new MutableLiveData<>();
     private IWordRepository wordRepository;
+    private SpeechRecognizer speechRecognizer;
+
+    private RecognitionListener recognitionListener = new RecognitionListener() {
+        @Override
+        public void onReadyForSpeech(Bundle bundle) {
+
+        }
+
+        @Override
+        public void onBeginningOfSpeech() {
+
+        }
+
+        @Override
+        public void onRmsChanged(float v) {
+
+        }
+
+        @Override
+        public void onBufferReceived(byte[] bytes) {
+
+        }
+
+        @Override
+        public void onEndOfSpeech() {
+            feedbackText.setValue("Speech recoginition stopped");
+            isSpeechAvailable.setValue(true);
+        }
+
+        @Override
+        public void onError(int i) {
+
+        }
+
+        @Override
+        public void onResults(Bundle bundle) {
+            ArrayList<String> results = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+            float[] confidence = bundle.getFloatArray(SpeechRecognizer.CONFIDENCE_SCORES);
+
+            if(results.isEmpty())
+                return;
+
+            // Find result with highest confidence
+            int index = 0;
+            float max = confidence[0];
+            for (int i = 1; i < confidence.length; i++){
+                float value = confidence[i];
+                if(value > max){
+                    max = value;
+                    index = i;
+                }
+            }
+
+            String word = results.get(index);
+            enteredText.setValue(word);
+            onEnterTextComplete();
+        }
+
+        @Override
+        public void onPartialResults(Bundle bundle) {
+
+        }
+
+        @Override
+        public void onEvent(int i, Bundle bundle) {
+
+        }
+    };
+
 
     public MainActivityViewModel(@NonNull Application application) {
         super(application);
@@ -44,6 +125,13 @@ public class MainActivityViewModel extends AndroidViewModel {
         showTextToSpeech.setValue(false);
         messageManager = new MessageManager();
         wordRepository = ServiceLocator.get(IWordRepository.class);
+
+        isSpeechAvailable.setValue(SpeechRecognizer.isRecognitionAvailable(getApplication().getApplicationContext()));
+
+        if(isSpeechAvailable.getValue()) {
+            speechRecognizer = SpeechRecognizer.createSpeechRecognizer(getApplication().getApplicationContext());
+            speechRecognizer.setRecognitionListener(recognitionListener);
+        }
     }
 
     /**
@@ -115,6 +203,10 @@ public class MainActivityViewModel extends AndroidViewModel {
         return isSendVisible;
     }
 
+    public MutableLiveData<Boolean> getIsSpeechAvailable() {
+        return isSpeechAvailable;
+    }
+
     public void onCompleteStroke(List<PatternLockView.Dot> pattern){
         String haptogram = MPatternLockUtils.patternToString(rows.getValue(), columns.getValue(), pattern);
 
@@ -165,7 +257,7 @@ public class MainActivityViewModel extends AndroidViewModel {
     }
 
     public void onEnterTextComplete(){
-        Log.d("MainActivityViewModel", "On Enter Text");
+        Log.d(TAG, "On Enter Text");
         String enteredText = getEnteredText().getValue();
         getEnteredText().setValue(null);
         if(TextUtils.isEmpty(enteredText))
@@ -183,6 +275,24 @@ public class MainActivityViewModel extends AndroidViewModel {
         dots.setValue(MPatternLockUtils.stringToPattern(rows.getValue(), columns.getValue(), wordRepository.getPattern(enteredText)));
         isSendVisible.setValue(true);
     }
+
+    public void onSpeechToTextClicked(){
+        Log.d(TAG, "On Speech to Text clicked");
+        // Check for permission
+        isSpeechAvailable.setValue(false);
+        Intent recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        speechRecognizer.startListening(recognizerIntent);
+        feedbackText.setValue("Speech recoginition activated");
+    }
+
+    public void cleanUp(){
+        if(speechRecognizer != null){
+            speechRecognizer.stopListening();
+            speechRecognizer.destroy();
+        }
+    }
+
+
 
     private Tuple<Boolean, String> tryTranslatePattern(String pattern){ // TODO: move to service
         Tuple<Boolean, String> returnValues = new Tuple();
