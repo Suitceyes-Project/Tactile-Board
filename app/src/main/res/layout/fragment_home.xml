@@ -102,7 +102,7 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/baseline_record_voice_over_black_24"
+                app:srcCompat="@drawable/baseline_mic_black_24"
                 android:onClick="@{() -> viewModel.onSpeechToTextClicked()}"
                 android:visibility="@{viewModel.isSpeechAvailable? View.VISIBLE : View.INVISIBLE}"/>
 

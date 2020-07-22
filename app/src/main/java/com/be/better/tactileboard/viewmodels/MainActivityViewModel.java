@@ -75,6 +75,7 @@ public class MainActivityViewModel extends AndroidViewModel {
         @Override
         public void onEndOfSpeech() {
             feedbackText.setValue("Speech recoginition stopped");
+            isSpeechAvailable.setValue(true);
         }
 
         @Override
@@ -278,7 +279,7 @@ public class MainActivityViewModel extends AndroidViewModel {
     public void onSpeechToTextClicked(){
         Log.d(TAG, "On Speech to Text clicked");
         // Check for permission
-
+        isSpeechAvailable.setValue(false);
         Intent recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         speechRecognizer.startListening(recognizerIntent);
         feedbackText.setValue("Speech recoginition activated");
