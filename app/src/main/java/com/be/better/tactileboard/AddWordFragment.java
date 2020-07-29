@@ -95,16 +95,7 @@ public class AddWordFragment extends Fragment {
 
     private void initPatternView() {
         patternView = (PatternLockView) getView().findViewById(R.id.pattern_lock_view);
-
         patternView.setDotCount(4);
-        //Tablet - Margin 40dp each side
-        //patternView.setDotNormalSize(70);
-        //patternView.setDotSelectedSize(70);
-
-        //Smartphone - Margin none
-        patternView.setDotNormalSize(40);
-        patternView.setDotSelectedSize(40);
-
         patternView.setInputEnabled(true);
         patternView.setDotAnimationDuration(50);
         patternView.setPathEndAnimationDuration(50);
