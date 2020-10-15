@@ -185,6 +185,14 @@ public class HomeFragment extends Fragment {
 
         patternView.setDotCount(viewModel.getRows().getValue());
 
+        //Tablet - Margin 40dp each side
+        //patternView.setDotNormalSize(70);
+        //patternView.setDotSelectedSize(70);
+
+        //Smartphone - Margin none
+        patternView.setDotNormalSize(40);
+        patternView.setDotSelectedSize(40);
+
         patternView.setInputEnabled(true);
         patternView.setDotAnimationDuration(50);
         patternView.setPathEndAnimationDuration(50);
