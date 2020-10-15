@@ -8,10 +8,11 @@ public class MessageFactory
 
     public static String create(String functionName, Object payload)
     {
+        /*
         Message msg = new Message();
         msg.FunctionName = functionName;
         msg.Payload = payload;
-
-        return gson.toJson(msg);
+        */
+        return gson.toJson(payload);
     }
 }
