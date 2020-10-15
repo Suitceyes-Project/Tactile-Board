@@ -15,7 +15,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 public class MessageManager {
 
     private MqttAndroidClient client;
-    final String Domain = "node02.myqtthub.com";
+    final String Domain = "tcp://node02.myqtthub.com:1883";
     final String ClientId = "Tactile-Board";
     final String Username = "suitceyes-admin";
     final String Password = "GirSjF17sPl%0gX&8aK3my00!";
