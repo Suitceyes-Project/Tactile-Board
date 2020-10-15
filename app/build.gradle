@@ -25,6 +25,7 @@ android {
 dependencies {
     def lifecycle_version = "2.2.0"
     def nav_version = "2.3.0"
+    def preference_version = "1.1.1"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.2'
@@ -50,6 +51,9 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
     apply plugin: "androidx.navigation.safeargs"
+
+    // Preferences
+    implementation "androidx.preference:preference:$preference_version"
 
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'

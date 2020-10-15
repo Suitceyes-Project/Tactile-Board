@@ -64,7 +64,7 @@ public class MessageManager {
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-
+                    Log.d("MQTT", "Failed to connect to MQTT server");
                 }
             });
         }
