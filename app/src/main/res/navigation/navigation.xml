@@ -38,4 +38,10 @@
         android:name="com.be.better.tactileboard.DictionaryFragment"
         android:label="DictionaryFragment"
         tools:layout="@layout/fragment_dictionary"/>
+
+    <fragment
+        android:id="@+id/preferencesFragment"
+        android:name="com.be.better.tactileboard.PreferencesFragment"
+        android:label="PreferencesFragment"
+        tools:layout="@xml/fragment_settings"/>
 </navigation>

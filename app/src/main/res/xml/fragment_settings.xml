@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="Frame Settings">
+
+        <!-- TODO: Language, auto-complete pattern -->
+
+        <SwitchPreference
+            android:key="@string/pref_actuator_first_frame_long_key"
+            android:title="@string/pref_actuator_first_frame_long_title"
+            android:summary="@string/pref_actuator_first_frame_long_desc"
+            android:defaultValue="false"/>
+
+        <SeekBarPreference
+            android:key="@string/pref_actuator_frame_time_key"
+            android:title="@string/pref_actuator_frame_time_title"
+            android:summary="@string/pref_actuator_frame_time_desc"
+            android:min="100"
+            android:max="400"
+            android:defaultValue="300"
+            app:showSeekBarValue="true"/>
+
+        <SeekBarPreference
+            android:key="@string/pref_actuator_frame_overlap_key"
+            android:title="@string/pref_actuator_frame_overlap_title"
+            android:summary="@string/pref_actuator_frame_overlap_desc"
+            android:min="0"
+            android:max="200"
+            android:defaultValue="50"
+            app:showSeekBarValue="true"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>
