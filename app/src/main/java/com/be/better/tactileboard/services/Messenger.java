@@ -1,7 +1,9 @@
-package com.be.better.tactileboard;
+package com.be.better.tactileboard.services;
 
 import android.content.Context;
 import android.util.Log;
+
+import com.be.better.tactileboard.ServiceLocator;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
@@ -12,14 +14,14 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-public class MessageManager {
+public class Messenger implements IMessenger, ServiceLocator.IService {
 
     private MqttAndroidClient client;
     final String Domain = "tcp://node02.myqtthub.com:1883";
     final String ClientId = "Tactile-Board";
     final String Username = "suitceyes-admin";
     final String Password = "GirSjF17sPl%0gX&8aK3my00!";
-    public MessageManager(Context context) {
+    public Messenger(Context context) {
         client = new MqttAndroidClient(context, Domain, ClientId);
 
         client.setCallback(new MqttCallbackExtended() {
@@ -73,12 +75,12 @@ public class MessageManager {
         }
     }
 
-    public void sendMessage(String message) {
-
+    @Override
+    public void send(String topic, String message) {
         try {
             MqttMessage msg = new MqttMessage();
             msg.setPayload(message.getBytes());
-            client.publish("suitceyes/tactile-board/play", msg);
+            client.publish(topic, msg);
         } catch (MqttException ex) {
             ex.printStackTrace();
         }

@@ -3,7 +3,6 @@ package com.be.better.tactileboard.viewmodels;
 import android.app.Application;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -20,7 +19,8 @@ import androidx.preference.PreferenceManager;
 import com.andrognito.patternlockview.PatternLockView;
 import com.be.better.tactileboard.MPatternLockUtils;
 import com.be.better.tactileboard.MessageFactory;
-import com.be.better.tactileboard.MessageManager;
+import com.be.better.tactileboard.services.IMessenger;
+import com.be.better.tactileboard.services.Messenger;
 import com.be.better.tactileboard.R;
 import com.be.better.tactileboard.ServiceLocator;
 import com.be.better.tactileboard.Tuple;
@@ -29,7 +29,6 @@ import com.be.better.tactileboard.VibrationPatternFactory;
 import com.be.better.tactileboard.services.IWordRepository;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -48,7 +47,7 @@ public class MainActivityViewModel extends AndroidViewModel {
     private MutableLiveData<Boolean> isSendVisible = new MutableLiveData<>();
     private MutableLiveData<List<PatternLockView.Dot>> dots = new MutableLiveData<>();
     private MutableLiveData<Boolean> isSpeechAvailable = new MutableLiveData<>();
-    private MessageManager messageManager;
+    private IMessenger messenger;
     private StringBuilder patternBuilder = new StringBuilder();
     private MutableLiveData<String> encodedHaptogramString = new MutableLiveData<>();
     private IWordRepository wordRepository;
@@ -126,7 +125,7 @@ public class MainActivityViewModel extends AndroidViewModel {
         super(application);
         writtenTranslation.setValue("Draw Haptogram or enter text");
         showTextToSpeech.setValue(false);
-        messageManager = new MessageManager(application);
+        messenger = ServiceLocator.get(IMessenger.class);
         wordRepository = ServiceLocator.get(IWordRepository.class);
 
         isSpeechAvailable.setValue(SpeechRecognizer.isRecognitionAvailable(getApplication().getApplicationContext()));
@@ -263,7 +262,7 @@ public class MainActivityViewModel extends AndroidViewModel {
 
         VibrationPattern vibrationPattern = VibrationPatternFactory.create(MPatternLockUtils.stringToPattern(getRows().getValue(), getColumns().getValue(), encodedHaptogramString.getValue()),
                 useReferenceFrame, frameDuration, frameOverlap);
-        messageManager.sendMessage(MessageFactory.create("TactileBoard", vibrationPattern));
+        messenger.send("suitceyes/tactile-board/play", MessageFactory.create("TactileBoard", vibrationPattern));
         feedbackText.setValue("Sending...");
         onClearHaptogram();
     }
