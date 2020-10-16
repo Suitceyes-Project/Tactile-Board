@@ -10,19 +10,23 @@ import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
+import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
+import java.util.Properties;
+
 public class Messenger implements IMessenger, ServiceLocator.IService {
 
     private MqttAndroidClient client;
-    final String Domain = "tcp://node02.myqtthub.com:1883";
+    final String Domain = "ssl://mqtt.ably.io:8883";
     final String ClientId = "Tactile-Board";
-    final String Username = "suitceyes-admin";
-    final String Password = "GirSjF17sPl%0gX&8aK3my00!";
+    final String Username = "GIn8xA.lwvRbg";
+    final String Password = "mmkCycAbnYQvmZxS";
     public Messenger(Context context) {
-        client = new MqttAndroidClient(context, Domain, ClientId);
+
+        client = new MqttAndroidClient(context, Domain, MqttClient.generateClientId());
 
         client.setCallback(new MqttCallbackExtended() {
             @Override
