@@ -1,6 +1,7 @@
 package com.be.better.tactileboard;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.widget.EditText;
 
@@ -27,10 +28,11 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
                 @Override
                 public void onBindEditText(@NonNull EditText editText) {
                     editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    editText.selectAll();
+                    int maxLength = 1;
+                    editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)});
                 }
             });
-
-            gridSize.setDefaultValue(4);
         }
     }
 }
