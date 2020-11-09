@@ -71,7 +71,7 @@ public class NewEntryViewModel extends AndroidViewModel {
     }
 
     public void onStrokeCompleted(List<PatternLockView.Dot> pattern){
-        String haptogram = MPatternLockUtils.patternToString(4,4, pattern);
+        String haptogram = MPatternLockUtils.patternToString(rows.getValue(),columns.getValue(), pattern);
 
         if(TextUtils.isEmpty(haptogram))
             return;
