@@ -1,12 +1,14 @@
 package com.be.better.tactileboard.viewmodels;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.preference.PreferenceManager;
 
 import com.andrognito.patternlockview.PatternLockView;
 import com.be.better.tactileboard.MPatternLockUtils;
@@ -16,6 +18,8 @@ import com.be.better.tactileboard.services.IWordRepository;
 import java.util.List;
 
 public class NewEntryViewModel extends AndroidViewModel {
+    private MutableLiveData<Integer> rows = new MutableLiveData<>(4);
+    private MutableLiveData<Integer> columns = new MutableLiveData<>(4);
     private MutableLiveData<String> newWord = new MutableLiveData<>();
     private MutableLiveData<Boolean> isValidHaptogram = new MutableLiveData<>();
     private MutableLiveData<String> userFeedbackMessage = new MutableLiveData<>();
@@ -26,6 +30,28 @@ public class NewEntryViewModel extends AndroidViewModel {
     public NewEntryViewModel(@NonNull Application application) {
         super(application);
         wordRepository = ServiceLocator.get(IWordRepository.class);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
+        String gridKey = getApplication().getResources().getString(R.string.pref_grid_size_key);
+        int size = prefs.getInt(gridKey, 4);
+        rows.setValue(size);
+        columns.setValue(size);
+    }
+
+    /**
+     * Gets the number of rows of the haptogram grid.
+     * @return
+     */
+    public LiveData<Integer> getRows() {
+        return rows;
+    }
+
+    /**
+     * Gets the number of columns of the haptogram grid.
+     * @return
+     */
+    public LiveData<Integer> getColumns() {
+        return columns;
     }
 
     public MutableLiveData<String> getNewWord() {
@@ -45,7 +71,7 @@ public class NewEntryViewModel extends AndroidViewModel {
     }
 
     public void onStrokeCompleted(List<PatternLockView.Dot> pattern){
-        String haptogram = MPatternLockUtils.patternToString(4,4, pattern);
+        String haptogram = MPatternLockUtils.patternToString(rows.getValue(),columns.getValue(), pattern);
 
         if(TextUtils.isEmpty(haptogram))
             return;
