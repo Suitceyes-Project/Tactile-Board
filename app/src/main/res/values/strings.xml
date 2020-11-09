@@ -27,4 +27,8 @@
     <string name="pref_actuator_frame_overlap_title">Actuator Overlap Time</string>
     <string name="pref_actuator_frame_overlap_desc">The duration of the overlap of two frames in ms.</string>
 
+    <string name="pref_grid_size_key">grid_size</string>
+    <string name="pref_grid_size_title">Grid Size</string>
+    <string name="pref_grid_size_desc">The size of the grid.</string>
+
 </resources>

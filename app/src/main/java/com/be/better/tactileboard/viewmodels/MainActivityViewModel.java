@@ -36,7 +36,7 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     private static final String TAG = "MainActivityViewModel";
 
-    private MutableLiveData<Integer> rows = new MutableLiveData<>(4);        // Should be moved to config file.
+    private MutableLiveData<Integer> rows = new MutableLiveData<>(4);
     private MutableLiveData<Integer> columns = new MutableLiveData<>(4);
 
     private MutableLiveData<String> writtenTranslation = new MutableLiveData<>();
@@ -134,6 +134,12 @@ public class MainActivityViewModel extends AndroidViewModel {
             speechRecognizer = SpeechRecognizer.createSpeechRecognizer(getApplication().getApplicationContext());
             speechRecognizer.setRecognitionListener(recognitionListener);
         }
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
+        String gridKey = getApplication().getResources().getString(R.string.pref_grid_size_key);
+        int size = prefs.getInt(gridKey, 4);
+        rows.setValue(size);
+        columns.setValue(size);
     }
 
     /**

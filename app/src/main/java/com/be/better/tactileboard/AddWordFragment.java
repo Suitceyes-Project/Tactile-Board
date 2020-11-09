@@ -95,7 +95,7 @@ public class AddWordFragment extends Fragment {
 
     private void initPatternView() {
         patternView = (PatternLockView) getView().findViewById(R.id.pattern_lock_view);
-        patternView.setDotCount(4);
+        patternView.setDotCount(viewModel.getRows().getValue());
         //Tablet - Margin 40dp each side
         //patternView.setDotNormalSize(70);
         //patternView.setDotSelectedSize(70);
