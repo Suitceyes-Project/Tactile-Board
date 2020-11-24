@@ -40,4 +40,12 @@
             app:showSeekBarValue="true"/>
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Other">
+       <SwitchPreference
+           android:key="@string/pref_send_ontology_key"
+           android:title="@string/pref_send_ontology_title"
+           android:summary="@string/pref_send_ontology_desc"
+           android:defaultValue="False"/>
+    </PreferenceCategory>
+
 </PreferenceScreen>

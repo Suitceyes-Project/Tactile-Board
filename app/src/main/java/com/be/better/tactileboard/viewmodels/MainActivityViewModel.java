@@ -268,7 +268,13 @@ public class MainActivityViewModel extends AndroidViewModel {
 
         VibrationPattern vibrationPattern = VibrationPatternFactory.create(MPatternLockUtils.stringToPattern(getRows().getValue(), getColumns().getValue(), encodedHaptogramString.getValue()),
                 useReferenceFrame, frameDuration, frameOverlap);
-        messenger.send("suitceyes/tactile-board/play", MessageFactory.create("TactileBoard", vibrationPattern));
+
+        if(!prefs.getBoolean(getApplication().getResources().getString(R.string.pref_send_ontology_key), false))
+            messenger.send("suitceyes/tactile-board/play", MessageFactory.create(vibrationPattern));
+        else {
+            Log.d(TAG, "onSendMessage: message: " + writtenTranslation.getValue());
+            messenger.send("suitceyes/ontology/query", MessageFactory.createOntologyMessage(writtenTranslation.getValue()));
+        }
         feedbackText.setValue("Sending...");
         onClearHaptogram();
     }

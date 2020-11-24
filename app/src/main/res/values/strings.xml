@@ -31,4 +31,8 @@
     <string name="pref_grid_size_title">Grid Size</string>
     <string name="pref_grid_size_desc">The size of the grid.</string>
 
+    <string name="pref_send_ontology_key">use_ontology</string>
+    <string name="pref_send_ontology_title">Message Destination</string>
+    <string name="pref_send_ontology_desc">When enabled the message will be sent to the ontology.</string>
+
 </resources>
