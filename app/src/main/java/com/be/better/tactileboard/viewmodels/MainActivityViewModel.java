@@ -39,12 +39,12 @@ public class MainActivityViewModel extends AndroidViewModel {
     private MutableLiveData<Integer> rows = new MutableLiveData<>(4);
     private MutableLiveData<Integer> columns = new MutableLiveData<>(4);
 
+    private MutableLiveData<String> completeButtonText = new MutableLiveData<>("Complete");
     private MutableLiveData<String> writtenTranslation = new MutableLiveData<>();
     private MutableLiveData<Boolean> showTextToSpeech = new MutableLiveData<>();
     private MutableLiveData<Boolean> isPatternCorrect = new MutableLiveData<>();
     private MutableLiveData<String> enteredText = new MutableLiveData<>();
     private MutableLiveData<String> feedbackText = new MutableLiveData<>();
-    private MutableLiveData<Boolean> isSendVisible = new MutableLiveData<>();
     private MutableLiveData<List<PatternLockView.Dot>> dots = new MutableLiveData<>();
     private MutableLiveData<Boolean> isSpeechAvailable = new MutableLiveData<>();
     private IMessenger messenger;
@@ -52,6 +52,7 @@ public class MainActivityViewModel extends AndroidViewModel {
     private MutableLiveData<String> encodedHaptogramString = new MutableLiveData<>();
     private IWordRepository wordRepository;
     private SpeechRecognizer speechRecognizer;
+    private boolean canSendMessage = false;
 
     private RecognitionListener recognitionListener = new RecognitionListener() {
         @Override
@@ -127,7 +128,7 @@ public class MainActivityViewModel extends AndroidViewModel {
         showTextToSpeech.setValue(false);
         messenger = ServiceLocator.get(IMessenger.class);
         wordRepository = ServiceLocator.get(IWordRepository.class);
-
+        completeButtonText.setValue("Complete");
         isSpeechAvailable.setValue(SpeechRecognizer.isRecognitionAvailable(getApplication().getApplicationContext()));
 
         if(isSpeechAvailable.getValue()) {
@@ -207,13 +208,11 @@ public class MainActivityViewModel extends AndroidViewModel {
         return dots;
     }
 
-    public MutableLiveData<Boolean> getIsSendVisible() {
-        return isSendVisible;
-    }
-
     public MutableLiveData<Boolean> getIsSpeechAvailable() {
         return isSpeechAvailable;
     }
+
+    public MutableLiveData<String> getCompleteButtonText() { return completeButtonText; }
 
     public void onCompleteStroke(List<PatternLockView.Dot> pattern){
         String haptogram = MPatternLockUtils.patternToString(rows.getValue(), columns.getValue(), pattern);
@@ -229,18 +228,27 @@ public class MainActivityViewModel extends AndroidViewModel {
     }
 
     public void onFinalizeHaptogram(){
+        if(!canSendMessage)
+            ValidatePattern();
+        else
+            onSendMessage();
+    }
+
+    private void ValidatePattern(){
         Tuple<Boolean, String> returnValue = tryTranslatePattern(patternBuilder.toString());
         if(returnValue.first) {
             writtenTranslation.setValue(returnValue.second);
             showTextToSpeech.setValue(true);
             isPatternCorrect.setValue(true);
-            isSendVisible.setValue(true);
+            completeButtonText.setValue("Send");
+            canSendMessage = true;
         }
         else {
             isPatternCorrect.setValue(false);
             showTextToSpeech.setValue(false);
             writtenTranslation.setValue(getApplication().getString(R.string.not_known));
-            isSendVisible.setValue(false);
+            completeButtonText.setValue("Complete");
+            canSendMessage = false;
         }
 
         patternBuilder.setLength(0);
@@ -252,7 +260,8 @@ public class MainActivityViewModel extends AndroidViewModel {
         showTextToSpeech.setValue(false);
         writtenTranslation.setValue("Draw Haptogram or enter text");
         encodedHaptogramString.setValue(null);
-        isSendVisible.setValue(false);
+        completeButtonText.setValue("Complete");
+        canSendMessage = false;
     }
 
     public void onSendMessage(){
@@ -298,7 +307,8 @@ public class MainActivityViewModel extends AndroidViewModel {
         writtenTranslation.setValue(enteredText);
         showTextToSpeech.setValue(true);
         dots.setValue(MPatternLockUtils.stringToPattern(rows.getValue(), columns.getValue(), wordRepository.getPattern(enteredText)));
-        isSendVisible.setValue(true);
+        completeButtonText.setValue("Send");
+        canSendMessage = true;
     }
 
     public void onSpeechToTextClicked(){
