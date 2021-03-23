@@ -1,6 +1,7 @@
 package com.be.better.tactileboard;
 
 import android.os.Bundle;
+import android.os.VibrationEffect;
 import android.speech.tts.TextToSpeech;
 import android.text.TextUtils;
 import android.util.Log;
@@ -52,6 +53,7 @@ public class HomeFragment extends Fragment {
 
         @Override
         public void onProgress(List<PatternLockView.Dot> progressPattern) {
+            viewModel.provideHapticFeedback(VibrationFeedback.DotActivation());
             Log.d(getClass().getName(), "Pattern progress: " +
                     PatternLockUtils.patternToString(patternView, progressPattern));
         }

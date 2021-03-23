@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.be.better.tactileboard">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
     <application
         android:name=".Main"
         android:allowBackup="true"

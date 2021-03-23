@@ -1,9 +1,13 @@
 package com.be.better.tactileboard.viewmodels;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -19,8 +23,8 @@ import androidx.preference.PreferenceManager;
 import com.andrognito.patternlockview.PatternLockView;
 import com.be.better.tactileboard.MPatternLockUtils;
 import com.be.better.tactileboard.MessageFactory;
+import com.be.better.tactileboard.VibrationFeedback;
 import com.be.better.tactileboard.services.IMessenger;
-import com.be.better.tactileboard.services.Messenger;
 import com.be.better.tactileboard.R;
 import com.be.better.tactileboard.ServiceLocator;
 import com.be.better.tactileboard.Tuple;
@@ -249,9 +253,18 @@ public class MainActivityViewModel extends AndroidViewModel {
             writtenTranslation.setValue(getApplication().getString(R.string.not_known));
             completeButtonText.setValue("Complete");
             canSendMessage = false;
+            provideHapticFeedback(VibrationFeedback.Error());
         }
 
         patternBuilder.setLength(0);
+    }
+
+    public void provideHapticFeedback(VibrationEffect effect){
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q)
+            return;
+
+        Vibrator vibrator = (Vibrator)getApplication().getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(effect);
     }
 
     public void onClearHaptogram(){
@@ -285,6 +298,7 @@ public class MainActivityViewModel extends AndroidViewModel {
             messenger.send("suitceyes/ontology/query", MessageFactory.createOntologyMessage(writtenTranslation.getValue()));
         }
         feedbackText.setValue("Sending...");
+        provideHapticFeedback(VibrationFeedback.Success());
         onClearHaptogram();
     }
 
