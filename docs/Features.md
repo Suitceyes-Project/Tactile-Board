@@ -3,6 +3,7 @@ layout: default
 title: Features
 nav_order: 2
 ---
+# Features
 Here you can find a short description on the different features of each screen.
 
 ## Home
@@ -14,17 +15,17 @@ Below the grid are two buttons: The Clear button is used to erase the current pa
 
 
 ## Create
-<img src="images/create.png" alt="Screenshot of home screen" width="400"/>
+<img src="https://affectivecognitiveinstitute.github.io/Tactile-Board/docs/images/create.png" alt="Screenshot of create screen" width="400"/>
 
 The Create screen enables the user to add a new haptogram-word pairing to the local library. This is accomplished by first drawing a pattern (single stroke or multiple strokes), followed by entering a text via the input field. Pressing the Add Entry button will validate the user’s entry and add the word-haptogram pairing to the local library if a series of tests are successfully passed. If any part of the validation fails, a relevant error message is displayed to the user (e.g. empty entry, a haptogram already exists etc.). 
 
 ## Library
-<img src="images/library.png" alt="Screenshot of home screen" width="400"/>
+<img src="https://affectivecognitiveinstitute.github.io/Tactile-Board/docs/images/library.png" alt="Screenshot of settings screen" width="400"/>
 
 The Library screen displays a list of words known to the system. Keeping the Delete All button pressed removes all words from the library. 
 
 ## Settings
-<img src="images/settings.png" alt="Screenshot of home screen" width="400"/>
+<img src="https://affectivecognitiveinstitute.github.io/Tactile-Board/docs/images/settings.png" alt="Screenshot of home screen" width="400"/>
 
 The settings screen enables the user to configure various features:
 
