@@ -6,7 +6,7 @@ nav_order: 2
 Here you can find a short description on the different features of each screen.
 
 ## Home
-<img  src="images/home.png" alt="Screenshot of home screen" width="400"/>
+<img src="https://affectivecognitiveinstitute.github.io/Tactile-Board/docs/images/home.png" alt="Screenshot of home screen" width="400"/>
 
 The Home screen is designed to allow the user to form a message in a multitude of ways. The top portion of the Home screen contains the grid which is used to encode haptograms by drawing a pattern. In addition to single strokes, the newer version of the software now provides the capability of drawing multiple single-touch strokes, e.g. it is now possible to draw a cross or any patterns that require more than one stroke. Along with drawing patterns, the user is now able to type messages via an input field which autocompletes words or phrases that are known to the local library of word-haptogram pairings. Alternatively, the user can press a button next to the input field, which activates speech-to-text, enabling the user to speak a word or phrase. When using the input field or speech-to-text, the system will draw the corresponding haptogram pattern on the grid if the pattern is known.
 
