@@ -2,7 +2,6 @@
 layout: default
 title: Features
 nav_order: 2
-permalink: /
 ---
 Here you can find a short description on the different features of each screen.
 
