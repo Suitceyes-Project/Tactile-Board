@@ -9,6 +9,8 @@ permalink: /
 Here you can find basic information on the Tactile Board Android application.
 
 ## What is the Tactile Board?
+<img src="{{site.baseurl}}/assets/images/overview.jpg" width="300" />
+
 The Tactile Board is a mobile Augmentative and Alternative Communication (AAC) device for individuals with deafblindness. The Tactile Board allows text and speech to be translated into vibrotactile signs that are displayed real-time to the user via a haptic wearable.
 
 The following video gives a demonstration on how the tactile board works:
