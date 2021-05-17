@@ -17,17 +17,13 @@ The following video gives a demonstration on how the tactile board works:
 
 The application utilizes an online MQTT message broker to pass data between the Tactile Board Android application, the [Tactile Board Listener](https://suitceyes-project-code.github.io/Tactile-Board-Listener/) and the ontology. 
 
-The following diagram gives an overview how the various components communicate with eachother:
-
-TODO: Add diagram here.
-
 ## Getting started
 * Open the project in an IDE such as Android Studio
 * Sync the project with Gradle files
 * Run the application on device or in emulator
 
 ## Architecture
-The application utilizes the MVVM architecture and makes use of several Android Jetpack libraries for navigation, databinding and lifecycle management.
+The application uses an MVVM architecture and makes use of several Android Jetpack libraries for navigation, databinding and lifecycle management.
 
 ## Contributors
 * Lea Buchweitz
@@ -35,6 +31,3 @@ The application utilizes the MVVM architecture and makes use of several Android 
 
 ## Authors
 * [James Gay](james.gay@hs-offenburg.de)
-
-## License
-The contents of this repository are freely available under the [MIT licence]().
