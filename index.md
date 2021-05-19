@@ -28,6 +28,7 @@ The application utilizes an online MQTT message broker to pass data between the 
 The application uses an MVVM architecture and makes use of several Android Jetpack libraries for navigation, databinding and lifecycle management.
 
 ## Contributors
+* Arthur Theil
 * Lea Buchweitz
 * James Gay
 
