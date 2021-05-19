@@ -7,7 +7,7 @@ nav_order: 2
 Here you can find a short description on the different features of each screen.
 
 ## Home
-<img src="https://affectivecognitiveinstitute.github.io/Tactile-Board/docs/images/home.png" alt="Screenshot of home screen" width="400"/>
+<img src="{{site.baseurl}}/docs/images/home.png" alt="Screenshot of home screen" width="400"/>
 
 The Home screen is designed to allow the user to form a message in a multitude of ways. The top portion of the Home screen contains the grid which is used to encode haptograms by drawing a pattern. In addition to single strokes, the newer version of the software now provides the capability of drawing multiple single-touch strokes, e.g. it is now possible to draw a cross or any patterns that require more than one stroke. Along with drawing patterns, the user is now able to type messages via an input field which autocompletes words or phrases that are known to the local library of word-haptogram pairings. Alternatively, the user can press a button next to the input field, which activates speech-to-text, enabling the user to speak a word or phrase. When using the input field or speech-to-text, the system will draw the corresponding haptogram pattern on the grid if the pattern is known.
 
@@ -15,17 +15,17 @@ Below the grid are two buttons: The Clear button is used to erase the current pa
 
 
 ## Create
-<img src="https://affectivecognitiveinstitute.github.io/Tactile-Board/docs/images/create.png" alt="Screenshot of create screen" width="400"/>
+<img src="{{site.baseurl}}/docs/images/create.png" alt="Screenshot of create screen" width="400"/>
 
 The Create screen enables the user to add a new haptogram-word pairing to the local library. This is accomplished by first drawing a pattern (single stroke or multiple strokes), followed by entering a text via the input field. Pressing the Add Entry button will validate the user’s entry and add the word-haptogram pairing to the local library if a series of tests are successfully passed. If any part of the validation fails, a relevant error message is displayed to the user (e.g. empty entry, a haptogram already exists etc.). 
 
 ## Library
-<img src="https://affectivecognitiveinstitute.github.io/Tactile-Board/docs/images/library.png" alt="Screenshot of settings screen" width="400"/>
+<img src="{{site.baseurl}}/docs/images/library.png" alt="Screenshot of settings screen" width="400"/>
 
 The Library screen displays a list of words known to the system. Keeping the Delete All button pressed removes all words from the library. 
 
 ## Settings
-<img src="https://affectivecognitiveinstitute.github.io/Tactile-Board/docs/images/settings.png" alt="Screenshot of home screen" width="400"/>
+<img src="{{site.baseurl}}/docs/images/settings.png" alt="Screenshot of home screen" width="400"/>
 
 The settings screen enables the user to configure various features:
 
