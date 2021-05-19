@@ -17,7 +17,7 @@ The following video gives a demonstration on how the tactile board works:
 
 [![Tactile Board Demonstration Video](http://img.youtube.com/vi/36bj-6xvPmU/0.jpg)](http://www.youtube.com/watch?v=36bj-6xvPmU)
 
-The application utilizes an online MQTT message broker to pass data between the Tactile Board Android application, the [Tactile Board Listener](https://suitceyes-project-code.github.io/Tactile-Board-Listener/) and the ontology. 
+The application utilizes an online MQTT message broker to pass data between the Tactile Board Android application, the [Tactile Board Listener](https://suitceyes-project.github.io/Tactile-Board-Listener/) and the ontology. 
 
 ## Getting started
 * Open the project in an IDE such as Android Studio
