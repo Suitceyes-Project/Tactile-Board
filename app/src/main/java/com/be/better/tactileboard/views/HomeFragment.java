@@ -27,9 +27,9 @@ import com.be.better.tactileboard.R;
 import com.be.better.tactileboard.services.ServiceLocator;
 import com.be.better.tactileboard.databinding.FragmentHomeBinding;
 import com.be.better.tactileboard.services.IWordRepository;
+import com.be.better.tactileboard.utils.VibrationFeedback;
 import com.be.better.tactileboard.viewmodels.HomeViewModel;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
+import android.os.VibrationEffect;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
@@ -54,6 +54,7 @@ public class HomeFragment extends Fragment {
 
         @Override
         public void onProgress(List<PatternLockView.Dot> progressPattern) {
+            viewModel.provideHapticFeedback(VibrationFeedback.DotActivation());
             Log.d(getClass().getName(), "Pattern progress: " +
                     PatternLockUtils.patternToString(patternView, progressPattern));
         }

@@ -1,9 +1,13 @@
 package com.be.better.tactileboard.viewmodels;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -26,6 +30,7 @@ import com.be.better.tactileboard.services.IWordRepository;
 import com.be.better.tactileboard.services.ServiceLocator;
 import com.be.better.tactileboard.utils.MPatternLockUtils;
 import com.be.better.tactileboard.utils.MessageFactory;
+import com.be.better.tactileboard.utils.VibrationFeedback;
 import com.be.better.tactileboard.utils.VibrationPatternFactory;
 
 import java.util.ArrayList;
@@ -249,9 +254,18 @@ public class HomeViewModel extends AndroidViewModel {
             writtenTranslation.setValue(getApplication().getString(R.string.not_known));
             completeButtonText.setValue("Complete");
             canSendMessage = false;
+            provideHapticFeedback(VibrationFeedback.Error());
         }
 
         patternBuilder.setLength(0);
+    }
+
+    public void provideHapticFeedback(VibrationEffect effect){
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q)
+            return;
+
+        Vibrator vibrator = (Vibrator)getApplication().getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(effect);
     }
 
     public void onClearHaptogram(){
@@ -285,6 +299,7 @@ public class HomeViewModel extends AndroidViewModel {
             messenger.send("suitceyes/ontology/query", MessageFactory.createOntologyMessage(writtenTranslation.getValue()));
         }
         feedbackText.setValue("Sending...");
+        provideHapticFeedback(VibrationFeedback.Success());
         onClearHaptogram();
     }
 
