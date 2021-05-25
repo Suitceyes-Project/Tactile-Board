@@ -18,8 +18,12 @@ public class Messenger implements IMessenger, ServiceLocator.IService {
     private MqttAndroidClient client;
     final String Domain = "ssl://mqtt.ably.io:8883";
     final String ClientId = "Tactile-Board";
-    final String Username = "GIn8xA.lwvRbg";
-    final String Password = "mmkCycAbnYQvmZxS";
+    //final String Username = "GIn8xA.lwvRbg";
+    //final String Password = "mmkCycAbnYQvmZxS";
+
+    final String Username = "xLDdSw.v7reiA";
+    final String Password = "7GI6vuteS8AI62QE";
+
     public Messenger(Context context) {
 
         client = new MqttAndroidClient(context, Domain, MqttClient.generateClientId());

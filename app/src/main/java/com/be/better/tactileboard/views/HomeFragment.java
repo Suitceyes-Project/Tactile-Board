@@ -39,7 +39,6 @@ public class HomeFragment extends Fragment {
     private ImageButton textToSpeechButton;
     private PatternLockView patternView;
     private TextToSpeech textToSpeech;
-    private FloatingActionButton sendButton;
 
     private FragmentHomeBinding binding;
     private HomeViewModel viewModel;
@@ -140,18 +139,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(List<PatternLockView.Dot> dots) {
                 patternView.setPattern(PatternLockView.PatternViewMode.AUTO_DRAW, dots);
-            }
-        });
-
-        sendButton = binding.getRoot().findViewById(R.id.SendMessage);
-        sendButton.hide();
-        viewModel.getIsSendVisible().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                if(aBoolean)
-                    sendButton.show();
-                else
-                    sendButton.hide();
             }
         });
 
