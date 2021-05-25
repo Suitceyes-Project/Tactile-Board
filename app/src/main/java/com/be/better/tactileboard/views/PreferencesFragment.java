@@ -1,4 +1,4 @@
-package com.be.better.tactileboard;
+package com.be.better.tactileboard.views;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -10,6 +10,7 @@ import androidx.preference.EditTextPreference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
+import com.be.better.tactileboard.R;
 import com.be.better.tactileboard.controls.IntEditTextPreference;
 
 public class PreferencesFragment extends PreferenceFragmentCompat {

@@ -1,4 +1,4 @@
-package com.be.better.tactileboard;
+package com.be.better.tactileboard.utils;
 
 import com.be.better.tactileboard.models.OntologyMessage;
 import com.google.gson.Gson;

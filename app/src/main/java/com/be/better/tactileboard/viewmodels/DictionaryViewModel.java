@@ -3,18 +3,18 @@ package com.be.better.tactileboard.viewmodels;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.be.better.tactileboard.ServiceLocator;
+import com.be.better.tactileboard.services.ServiceLocator;
 import com.be.better.tactileboard.services.IWordRepository;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class DictionaryEntriesViewModel extends ViewModel {
+public class DictionaryViewModel extends ViewModel {
     private MutableLiveData<List<String>> words = new MutableLiveData<>();
     private IWordRepository wordRepository;
 
-    public DictionaryEntriesViewModel() {
+    public DictionaryViewModel() {
         wordRepository = ServiceLocator.get(IWordRepository.class);
         initWordList();
     }

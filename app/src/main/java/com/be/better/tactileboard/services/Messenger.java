@@ -3,8 +3,6 @@ package com.be.better.tactileboard.services;
 import android.content.Context;
 import android.util.Log;
 
-import com.be.better.tactileboard.ServiceLocator;
-
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -14,8 +12,6 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-
-import java.util.Properties;
 
 public class Messenger implements IMessenger, ServiceLocator.IService {
 

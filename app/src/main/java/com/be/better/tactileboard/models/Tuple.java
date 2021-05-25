@@ -1,4 +1,4 @@
-package com.be.better.tactileboard;
+package com.be.better.tactileboard.models;
 
 public class Tuple<V1, V2> {
     public V1 first;

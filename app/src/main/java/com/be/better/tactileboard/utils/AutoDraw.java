@@ -1,9 +1,7 @@
-package com.be.better.tactileboard;
-
-import android.util.Log;
+package com.be.better.tactileboard.utils;
 
 import com.andrognito.patternlockview.PatternLockView;
-import com.andrognito.patternlockview.utils.PatternLockUtils;
+import com.be.better.tactileboard.utils.MPatternLockUtils;
 
 public class AutoDraw extends Thread {
 

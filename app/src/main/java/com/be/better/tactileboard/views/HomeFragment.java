@@ -1,4 +1,4 @@
-package com.be.better.tactileboard;
+package com.be.better.tactileboard.views;
 
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -23,9 +23,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
+import com.be.better.tactileboard.R;
+import com.be.better.tactileboard.services.ServiceLocator;
 import com.be.better.tactileboard.databinding.FragmentHomeBinding;
 import com.be.better.tactileboard.services.IWordRepository;
-import com.be.better.tactileboard.viewmodels.MainActivityViewModel;
+import com.be.better.tactileboard.viewmodels.HomeViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Collection;
@@ -40,7 +42,7 @@ public class HomeFragment extends Fragment {
     private FloatingActionButton sendButton;
 
     private FragmentHomeBinding binding;
-    private MainActivityViewModel viewModel;
+    private HomeViewModel viewModel;
 
     public HomeFragment() {
     }
@@ -73,7 +75,7 @@ public class HomeFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         // Setup view model
-        viewModel = new ViewModelProvider.AndroidViewModelFactory(getActivity().getApplication()).create(MainActivityViewModel.class);
+        viewModel = new ViewModelProvider.AndroidViewModelFactory(getActivity().getApplication()).create(HomeViewModel.class);
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
 

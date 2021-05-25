@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.be.better.tactileboard.HomeFragment"
+        android:name="com.be.better.tactileboard.views.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/addWordFragment"
-        android:name="com.be.better.tactileboard.AddWordFragment"
+        android:name="com.be.better.tactileboard.views.AddWordFragment"
         android:label="AddWordFragment"
         tools:layout="@layout/fragment_add_word">
         <action
@@ -35,13 +35,13 @@
     </fragment>
     <fragment
         android:id="@+id/dictionaryFragment"
-        android:name="com.be.better.tactileboard.DictionaryFragment"
+        android:name="com.be.better.tactileboard.views.DictionaryFragment"
         android:label="DictionaryFragment"
         tools:layout="@layout/fragment_dictionary"/>
 
     <fragment
         android:id="@+id/preferencesFragment"
-        android:name="com.be.better.tactileboard.PreferencesFragment"
+        android:name="com.be.better.tactileboard.views.PreferencesFragment"
         android:label="PreferencesFragment"
         tools:layout="@xml/fragment_settings"/>
 </navigation>

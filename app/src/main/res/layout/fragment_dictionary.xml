@@ -3,14 +3,14 @@
     <data>
         <variable
             name="viewModel"
-            type="com.be.better.tactileboard.viewmodels.DictionaryEntriesViewModel" />
+            type="com.be.better.tactileboard.viewmodels.DictionaryViewModel" />
     </data>
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:tools="http://schemas.android.com/tools"
-        tools:context=".DictionaryFragment">
+        tools:context=".views.DictionaryFragment">
 
         <Button
             android:id="@+id/delete"

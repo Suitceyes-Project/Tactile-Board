@@ -11,13 +11,13 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.preference.PreferenceManager;
 
 import com.andrognito.patternlockview.PatternLockView;
-import com.be.better.tactileboard.MPatternLockUtils;
+import com.be.better.tactileboard.utils.MPatternLockUtils;
 import com.be.better.tactileboard.R;
-import com.be.better.tactileboard.ServiceLocator;
+import com.be.better.tactileboard.services.ServiceLocator;
 import com.be.better.tactileboard.services.IWordRepository;
 import java.util.List;
 
-public class NewEntryViewModel extends AndroidViewModel {
+public class AddWordViewModel extends AndroidViewModel {
     private MutableLiveData<Integer> rows = new MutableLiveData<>(4);
     private MutableLiveData<Integer> columns = new MutableLiveData<>(4);
     private MutableLiveData<String> newWord = new MutableLiveData<>();
@@ -27,7 +27,7 @@ public class NewEntryViewModel extends AndroidViewModel {
     private StringBuilder patternBuilder = new StringBuilder();
     private IWordRepository wordRepository;
 
-    public NewEntryViewModel(@NonNull Application application) {
+    public AddWordViewModel(@NonNull Application application) {
         super(application);
         wordRepository = ServiceLocator.get(IWordRepository.class);
 

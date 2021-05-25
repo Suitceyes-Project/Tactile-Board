@@ -1,13 +1,7 @@
-package com.be.better.tactileboard;
-
+package com.be.better.tactileboard.models;
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.TreeSet;
 
 public class VibrationPattern {
@@ -18,7 +12,7 @@ public class VibrationPattern {
     private double duration;
     private TreeSet<Frame> frames;
 
-    VibrationPattern(boolean isLooped) {
+    public VibrationPattern(boolean isLooped) {
         this.isLooped = isLooped;
         this.duration = 0.0;
         // frames must be sorted by time

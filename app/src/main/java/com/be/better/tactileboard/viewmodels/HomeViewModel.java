@@ -17,22 +17,21 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.preference.PreferenceManager;
 
 import com.andrognito.patternlockview.PatternLockView;
-import com.be.better.tactileboard.MPatternLockUtils;
-import com.be.better.tactileboard.MessageFactory;
+import com.be.better.tactileboard.utils.MPatternLockUtils;
+import com.be.better.tactileboard.utils.MessageFactory;
 import com.be.better.tactileboard.services.IMessenger;
-import com.be.better.tactileboard.services.Messenger;
 import com.be.better.tactileboard.R;
-import com.be.better.tactileboard.ServiceLocator;
-import com.be.better.tactileboard.Tuple;
-import com.be.better.tactileboard.VibrationPattern;
-import com.be.better.tactileboard.VibrationPatternFactory;
+import com.be.better.tactileboard.services.ServiceLocator;
+import com.be.better.tactileboard.models.Tuple;
+import com.be.better.tactileboard.models.VibrationPattern;
+import com.be.better.tactileboard.utils.VibrationPatternFactory;
 import com.be.better.tactileboard.services.IWordRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivityViewModel extends AndroidViewModel {
+public class HomeViewModel extends AndroidViewModel {
 
     private static final String TAG = "MainActivityViewModel";
 
@@ -121,7 +120,7 @@ public class MainActivityViewModel extends AndroidViewModel {
     };
 
 
-    public MainActivityViewModel(@NonNull Application application) {
+    public HomeViewModel(@NonNull Application application) {
         super(application);
         writtenTranslation.setValue("Draw Haptogram or enter text");
         showTextToSpeech.setValue(false);

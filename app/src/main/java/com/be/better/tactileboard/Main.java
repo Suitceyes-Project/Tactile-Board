@@ -1,13 +1,13 @@
 package com.be.better.tactileboard;
 
 import android.app.Application;
-import android.app.Service;
 import android.content.Context;
 import android.util.Log;
 
 import com.be.better.tactileboard.services.IMessenger;
 import com.be.better.tactileboard.services.IWordRepository;
 import com.be.better.tactileboard.services.Messenger;
+import com.be.better.tactileboard.services.ServiceLocator;
 import com.be.better.tactileboard.services.WordRepository;
 
 public class Main extends Application {

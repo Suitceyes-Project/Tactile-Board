@@ -5,13 +5,13 @@
     <data>
         <variable
             name="viewModel"
-            type="com.be.better.tactileboard.viewmodels.NewEntryViewModel" />
+            type="com.be.better.tactileboard.viewmodels.AddWordViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#00312F2F"
-        tools:context=".AddWordFragment">
+        tools:context=".views.AddWordFragment">
 
         <com.andrognito.patternlockview.PatternLockView
             android:id="@+id/pattern_lock_view"

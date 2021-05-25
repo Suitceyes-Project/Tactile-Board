@@ -1,4 +1,6 @@
-package com.be.better.tactileboard;
+package com.be.better.tactileboard.models;
+
+import com.be.better.tactileboard.models.ActuatorValue;
 
 import java.util.LinkedList;
 
@@ -7,7 +9,7 @@ public class Frame {
     private double time;
     private LinkedList<ActuatorValue> actuators;
 
-    Frame(double time) {
+    public Frame(double time) {
         this.time = time;
         actuators = new LinkedList<ActuatorValue>();
     }

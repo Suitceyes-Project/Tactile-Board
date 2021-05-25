@@ -1,4 +1,4 @@
-package com.be.better.tactileboard;
+package com.be.better.tactileboard.utils;
 
 import android.content.Context;
 import android.text.TextUtils;

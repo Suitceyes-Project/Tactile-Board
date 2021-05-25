@@ -5,7 +5,6 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.be.better.tactileboard.ServiceLocator;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

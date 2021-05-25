@@ -1,4 +1,4 @@
-package com.be.better.tactileboard;
+package com.be.better.tactileboard.services;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

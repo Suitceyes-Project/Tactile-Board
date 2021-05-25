@@ -1,6 +1,9 @@
-package com.be.better.tactileboard;
+package com.be.better.tactileboard.utils;
 
 import com.andrognito.patternlockview.PatternLockView;
+import com.be.better.tactileboard.models.ActuatorValue;
+import com.be.better.tactileboard.models.Frame;
+import com.be.better.tactileboard.models.VibrationPattern;
 
 import java.util.List;
 
